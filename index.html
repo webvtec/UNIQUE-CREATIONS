@@ -76,6 +76,65 @@ body {
 }
 
 /* ==============================
+   GOLD HEXAGON GLOW BACKGROUND
+   ============================== */
+.hex-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background: var(--cream);
+}
+
+.hex-bg svg {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 140vw;
+  height: 140vh;
+  min-width: 900px;
+  min-height: 900px;
+  transform: translate(-50%, -50%);
+  opacity: 0.75;
+}
+
+.hex-bg .hex-cell {
+  fill: rgba(217,166,46,0.04);
+  stroke: rgba(217,166,46,0.4);
+  stroke-width: 1;
+  animation: hexPulse 7s ease-in-out infinite;
+}
+
+.hex-bg .hex-cell.hex-bright {
+  fill: rgba(217,166,46,0.08);
+  stroke: rgba(239,198,90,0.75);
+  stroke-width: 1.3;
+  filter: drop-shadow(0 0 6px rgba(239,198,90,0.35));
+}
+
+.hex-bg .hex-cell:nth-child(3n) { animation-delay: -1.4s; }
+.hex-bg .hex-cell:nth-child(4n) { animation-delay: -3s; }
+.hex-bg .hex-cell:nth-child(5n) { animation-delay: -4.5s; }
+
+@keyframes hexPulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* heavy vignette — edges fully fade into background */
+.hex-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 25%, rgba(11,15,15,0.5) 62%, var(--cream) 88%);
+}
+
+/* keep the app content above the hex background */
+.pill-nav-wrap { position: relative; z-index: 1; }
+.modal-overlay { z-index: 900; }
+.view.active { position: relative; z-index: 1; }
+
+/* ==============================
    FLOATING PILL NAVIGATION
    ============================== */
 .pill-nav-wrap {
@@ -269,18 +328,37 @@ body {
 
 .hero-title {
   font-family: 'Playfair Display', serif;
-  font-size: 36px;
+  font-size: 38px;
   font-weight: 900;
-  color: #fff;
+  color: #D9A62E;
   line-height: 1.1;
   margin-bottom: 8px;
   position: relative;
   z-index: 1;
+  text-shadow:
+    0 0 30px rgba(239,198,90,0.5),
+    0 0 60px rgba(217,166,46,0.25),
+    0 2px 8px rgba(0,0,0,0.4);
+  letter-spacing: 0.5px;
+  animation: heroGold 4s ease-in-out infinite;
+}
+
+@keyframes heroGold {
+  0%, 100% {
+    text-shadow: 0 0 20px rgba(239,198,90,0.4), 0 0 50px rgba(217,166,46,0.2), 0 2px 8px rgba(0,0,0,0.4);
+  }
+  50% {
+    text-shadow: 0 0 40px rgba(239,198,90,0.75), 0 0 80px rgba(217,166,46,0.45), 0 2px 8px rgba(0,0,0,0.4);
+  }
 }
 
 .hero-title em {
   font-style: italic;
-  color: var(--rose2);
+  color: #EFC65A;
+  text-shadow:
+    0 0 20px rgba(239,198,90,0.8),
+    0 0 50px rgba(217,166,46,0.5),
+    0 2px 8px rgba(0,0,0,0.4);
 }
 
 .hero-sub {
@@ -432,8 +510,8 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: var(--burgundy);
-  color: #fff;
+  background: linear-gradient(135deg, #D9A62E 0%, #EFC65A 50%, #D9A62E 100%);
+  color: #0B0F0F;
   font-family: 'Lato', sans-serif;
   font-weight: 900;
   font-size: 9.5px;
@@ -443,10 +521,14 @@ body {
   border-radius: 10px;
   border: none;
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(23,191,174,0.25);
+  box-shadow: 0 4px 18px rgba(217,166,46,0.45), 0 0 8px rgba(239,198,90,0.25);
   transition: all 0.25s;
 }
-.btn-book-look:hover { background: var(--burgundy2); transform: translateY(-2px); }
+.btn-book-look:hover {
+  background: linear-gradient(135deg, #EFC65A 0%, #FFD96A 50%, #EFC65A 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(217,166,46,0.6), 0 0 16px rgba(239,198,90,0.4);
+}
 
 /* Socials footer strip */
 .socials-strip {
@@ -927,6 +1009,362 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.3); }
 </style>
 </head>
 <body>
+<div class="hex-bg">
+<svg viewBox="0 0 1845 1196" xmlns="http://www.w3.org/2000/svg">
+<polygon class="hex-cell" points="39.8,-23.0 39.8,23.0 0.0,46.0 -39.8,23.0 -39.8,-23.0 -0.0,-46.0" style="animation-duration:4.60s; animation-delay:-3.91s;"/>
+<polygon class="hex-cell hex-bright" points="119.5,-23.0 119.5,23.0 79.7,46.0 39.8,23.0 39.8,-23.0 79.7,-46.0" style="animation-duration:6.14s; animation-delay:-2.19s;"/>
+<polygon class="hex-cell hex-bright" points="199.2,-23.0 199.2,23.0 159.3,46.0 119.5,23.0 119.5,-23.0 159.3,-46.0" style="animation-duration:6.03s; animation-delay:-0.22s;"/>
+<polygon class="hex-cell" points="278.9,-23.0 278.9,23.0 239.0,46.0 199.2,23.0 199.2,-23.0 239.0,-46.0" style="animation-duration:4.28s; animation-delay:-0.54s;"/>
+<polygon class="hex-cell" points="358.5,-23.0 358.5,23.0 318.7,46.0 278.9,23.0 278.9,-23.0 318.7,-46.0" style="animation-duration:7.31s; animation-delay:-0.74s;"/>
+<polygon class="hex-cell" points="438.2,-23.0 438.2,23.0 398.4,46.0 358.5,23.0 358.5,-23.0 398.4,-46.0" style="animation-duration:6.51s; animation-delay:-5.69s;"/>
+<polygon class="hex-cell" points="517.9,-23.0 517.9,23.0 478.0,46.0 438.2,23.0 438.2,-23.0 478.0,-46.0" style="animation-duration:5.59s; animation-delay:-5.86s;"/>
+<polygon class="hex-cell hex-bright" points="597.6,-23.0 597.6,23.0 557.7,46.0 517.9,23.0 517.9,-23.0 557.7,-46.0" style="animation-duration:7.43s; animation-delay:-1.74s;"/>
+<polygon class="hex-cell" points="677.2,-23.0 677.2,23.0 637.4,46.0 597.6,23.0 597.6,-23.0 637.4,-46.0" style="animation-duration:4.47s; animation-delay:-1.85s;"/>
+<polygon class="hex-cell" points="756.9,-23.0 756.9,23.0 717.1,46.0 677.2,23.0 677.2,-23.0 717.1,-46.0" style="animation-duration:4.72s; animation-delay:-3.49s;"/>
+<polygon class="hex-cell" points="836.6,-23.0 836.6,23.0 796.7,46.0 756.9,23.0 756.9,-23.0 796.7,-46.0" style="animation-duration:5.49s; animation-delay:-3.29s;"/>
+<polygon class="hex-cell hex-bright" points="916.3,-23.0 916.3,23.0 876.4,46.0 836.6,23.0 836.6,-23.0 876.4,-46.0" style="animation-duration:4.24s; animation-delay:-1.24s;"/>
+<polygon class="hex-cell" points="995.9,-23.0 995.9,23.0 956.1,46.0 916.3,23.0 916.3,-23.0 956.1,-46.0" style="animation-duration:5.71s; animation-delay:-1.88s;"/>
+<polygon class="hex-cell" points="1075.6,-23.0 1075.6,23.0 1035.8,46.0 995.9,23.0 995.9,-23.0 1035.8,-46.0" style="animation-duration:5.81s; animation-delay:-1.80s;"/>
+<polygon class="hex-cell" points="1155.3,-23.0 1155.3,23.0 1115.4,46.0 1075.6,23.0 1075.6,-23.0 1115.4,-46.0" style="animation-duration:6.80s; animation-delay:-1.46s;"/>
+<polygon class="hex-cell" points="1235.0,-23.0 1235.0,23.0 1195.1,46.0 1155.3,23.0 1155.3,-23.0 1195.1,-46.0" style="animation-duration:6.10s; animation-delay:-5.25s;"/>
+<polygon class="hex-cell" points="1314.6,-23.0 1314.6,23.0 1274.8,46.0 1235.0,23.0 1235.0,-23.0 1274.8,-46.0" style="animation-duration:5.15s; animation-delay:-5.88s;"/>
+<polygon class="hex-cell" points="1394.3,-23.0 1394.3,23.0 1354.5,46.0 1314.6,23.0 1314.6,-23.0 1354.5,-46.0" style="animation-duration:5.67s; animation-delay:-4.54s;"/>
+<polygon class="hex-cell" points="1474.0,-23.0 1474.0,23.0 1434.1,46.0 1394.3,23.0 1394.3,-23.0 1434.1,-46.0" style="animation-duration:5.96s; animation-delay:-0.24s;"/>
+<polygon class="hex-cell" points="1553.6,-23.0 1553.6,23.0 1513.8,46.0 1474.0,23.0 1474.0,-23.0 1513.8,-46.0" style="animation-duration:7.06s; animation-delay:-3.44s;"/>
+<polygon class="hex-cell" points="1633.3,-23.0 1633.3,23.0 1593.5,46.0 1553.6,23.0 1553.6,-23.0 1593.5,-46.0" style="animation-duration:5.25s; animation-delay:-4.17s;"/>
+<polygon class="hex-cell" points="1713.0,-23.0 1713.0,23.0 1673.2,46.0 1633.3,23.0 1633.3,-23.0 1673.2,-46.0" style="animation-duration:6.32s; animation-delay:-2.74s;"/>
+<polygon class="hex-cell" points="79.7,46.0 79.7,92.0 39.8,115.0 -0.0,92.0 0.0,46.0 39.8,23.0" style="animation-duration:7.78s; animation-delay:-2.84s;"/>
+<polygon class="hex-cell" points="159.3,46.0 159.3,92.0 119.5,115.0 79.7,92.0 79.7,46.0 119.5,23.0" style="animation-duration:4.24s; animation-delay:-4.21s;"/>
+<polygon class="hex-cell" points="239.0,46.0 239.0,92.0 199.2,115.0 159.3,92.0 159.3,46.0 199.2,23.0" style="animation-duration:7.97s; animation-delay:-4.93s;"/>
+<polygon class="hex-cell" points="318.7,46.0 318.7,92.0 278.9,115.0 239.0,92.0 239.0,46.0 278.9,23.0" style="animation-duration:5.54s; animation-delay:-4.01s;"/>
+<polygon class="hex-cell hex-bright" points="398.4,46.0 398.4,92.0 358.5,115.0 318.7,92.0 318.7,46.0 358.5,23.0" style="animation-duration:5.85s; animation-delay:-1.01s;"/>
+<polygon class="hex-cell" points="478.0,46.0 478.0,92.0 438.2,115.0 398.4,92.0 398.4,46.0 438.2,23.0" style="animation-duration:4.24s; animation-delay:-4.61s;"/>
+<polygon class="hex-cell" points="557.7,46.0 557.7,92.0 517.9,115.0 478.0,92.0 478.0,46.0 517.9,23.0" style="animation-duration:4.99s; animation-delay:-2.35s;"/>
+<polygon class="hex-cell" points="637.4,46.0 637.4,92.0 597.6,115.0 557.7,92.0 557.7,46.0 597.6,23.0" style="animation-duration:4.32s; animation-delay:-2.70s;"/>
+<polygon class="hex-cell" points="717.1,46.0 717.1,92.0 677.2,115.0 637.4,92.0 637.4,46.0 677.2,23.0" style="animation-duration:7.53s; animation-delay:-4.92s;"/>
+<polygon class="hex-cell" points="796.7,46.0 796.7,92.0 756.9,115.0 717.1,92.0 717.1,46.0 756.9,23.0" style="animation-duration:5.11s; animation-delay:-2.49s;"/>
+<polygon class="hex-cell" points="876.4,46.0 876.4,92.0 836.6,115.0 796.7,92.0 796.7,46.0 836.6,23.0" style="animation-duration:7.54s; animation-delay:-5.75s;"/>
+<polygon class="hex-cell" points="956.1,46.0 956.1,92.0 916.3,115.0 876.4,92.0 876.4,46.0 916.3,23.0" style="animation-duration:4.70s; animation-delay:-1.39s;"/>
+<polygon class="hex-cell" points="1035.8,46.0 1035.8,92.0 995.9,115.0 956.1,92.0 956.1,46.0 995.9,23.0" style="animation-duration:5.94s; animation-delay:-3.53s;"/>
+<polygon class="hex-cell" points="1115.4,46.0 1115.4,92.0 1075.6,115.0 1035.8,92.0 1035.8,46.0 1075.6,23.0" style="animation-duration:4.02s; animation-delay:-2.51s;"/>
+<polygon class="hex-cell" points="1195.1,46.0 1195.1,92.0 1155.3,115.0 1115.4,92.0 1115.4,46.0 1155.3,23.0" style="animation-duration:6.27s; animation-delay:-5.72s;"/>
+<polygon class="hex-cell" points="1274.8,46.0 1274.8,92.0 1235.0,115.0 1195.1,92.0 1195.1,46.0 1235.0,23.0" style="animation-duration:6.06s; animation-delay:-3.71s;"/>
+<polygon class="hex-cell" points="1354.5,46.0 1354.5,92.0 1314.6,115.0 1274.8,92.0 1274.8,46.0 1314.6,23.0" style="animation-duration:4.22s; animation-delay:-5.40s;"/>
+<polygon class="hex-cell" points="1434.1,46.0 1434.1,92.0 1394.3,115.0 1354.5,92.0 1354.5,46.0 1394.3,23.0" style="animation-duration:7.50s; animation-delay:-4.79s;"/>
+<polygon class="hex-cell" points="1513.8,46.0 1513.8,92.0 1474.0,115.0 1434.1,92.0 1434.1,46.0 1474.0,23.0" style="animation-duration:5.60s; animation-delay:-0.62s;"/>
+<polygon class="hex-cell" points="1593.5,46.0 1593.5,92.0 1553.6,115.0 1513.8,92.0 1513.8,46.0 1553.6,23.0" style="animation-duration:4.25s; animation-delay:-0.40s;"/>
+<polygon class="hex-cell" points="1673.2,46.0 1673.2,92.0 1633.3,115.0 1593.5,92.0 1593.5,46.0 1633.3,23.0" style="animation-duration:4.65s; animation-delay:-2.04s;"/>
+<polygon class="hex-cell hex-bright" points="1752.8,46.0 1752.8,92.0 1713.0,115.0 1673.2,92.0 1673.2,46.0 1713.0,23.0" style="animation-duration:4.00s; animation-delay:-0.91s;"/>
+<polygon class="hex-cell" points="39.8,115.0 39.8,161.0 0.0,184.0 -39.8,161.0 -39.8,115.0 -0.0,92.0" style="animation-duration:5.45s; animation-delay:-0.15s;"/>
+<polygon class="hex-cell" points="119.5,115.0 119.5,161.0 79.7,184.0 39.8,161.0 39.8,115.0 79.7,92.0" style="animation-duration:6.46s; animation-delay:-0.89s;"/>
+<polygon class="hex-cell" points="199.2,115.0 199.2,161.0 159.3,184.0 119.5,161.0 119.5,115.0 159.3,92.0" style="animation-duration:5.39s; animation-delay:-2.18s;"/>
+<polygon class="hex-cell" points="278.9,115.0 278.9,161.0 239.0,184.0 199.2,161.0 199.2,115.0 239.0,92.0" style="animation-duration:7.40s; animation-delay:-5.96s;"/>
+<polygon class="hex-cell" points="358.5,115.0 358.5,161.0 318.7,184.0 278.9,161.0 278.9,115.0 318.7,92.0" style="animation-duration:5.94s; animation-delay:-0.52s;"/>
+<polygon class="hex-cell" points="438.2,115.0 438.2,161.0 398.4,184.0 358.5,161.0 358.5,115.0 398.4,92.0" style="animation-duration:5.37s; animation-delay:-1.59s;"/>
+<polygon class="hex-cell" points="517.9,115.0 517.9,161.0 478.0,184.0 438.2,161.0 438.2,115.0 478.0,92.0" style="animation-duration:4.65s; animation-delay:-0.14s;"/>
+<polygon class="hex-cell" points="597.6,115.0 597.6,161.0 557.7,184.0 517.9,161.0 517.9,115.0 557.7,92.0" style="animation-duration:6.11s; animation-delay:-0.88s;"/>
+<polygon class="hex-cell" points="677.2,115.0 677.2,161.0 637.4,184.0 597.6,161.0 597.6,115.0 637.4,92.0" style="animation-duration:4.11s; animation-delay:-3.17s;"/>
+<polygon class="hex-cell" points="756.9,115.0 756.9,161.0 717.1,184.0 677.2,161.0 677.2,115.0 717.1,92.0" style="animation-duration:7.45s; animation-delay:-4.18s;"/>
+<polygon class="hex-cell" points="836.6,115.0 836.6,161.0 796.7,184.0 756.9,161.0 756.9,115.0 796.7,92.0" style="animation-duration:5.47s; animation-delay:-1.00s;"/>
+<polygon class="hex-cell" points="916.3,115.0 916.3,161.0 876.4,184.0 836.6,161.0 836.6,115.0 876.4,92.0" style="animation-duration:6.13s; animation-delay:-4.67s;"/>
+<polygon class="hex-cell" points="995.9,115.0 995.9,161.0 956.1,184.0 916.3,161.0 916.3,115.0 956.1,92.0" style="animation-duration:4.89s; animation-delay:-4.87s;"/>
+<polygon class="hex-cell" points="1075.6,115.0 1075.6,161.0 1035.8,184.0 995.9,161.0 995.9,115.0 1035.8,92.0" style="animation-duration:7.41s; animation-delay:-4.84s;"/>
+<polygon class="hex-cell" points="1155.3,115.0 1155.3,161.0 1115.4,184.0 1075.6,161.0 1075.6,115.0 1115.4,92.0" style="animation-duration:6.96s; animation-delay:-1.36s;"/>
+<polygon class="hex-cell" points="1235.0,115.0 1235.0,161.0 1195.1,184.0 1155.3,161.0 1155.3,115.0 1195.1,92.0" style="animation-duration:5.42s; animation-delay:-0.17s;"/>
+<polygon class="hex-cell hex-bright" points="1314.6,115.0 1314.6,161.0 1274.8,184.0 1235.0,161.0 1235.0,115.0 1274.8,92.0" style="animation-duration:5.12s; animation-delay:-1.56s;"/>
+<polygon class="hex-cell" points="1394.3,115.0 1394.3,161.0 1354.5,184.0 1314.6,161.0 1314.6,115.0 1354.5,92.0" style="animation-duration:7.83s; animation-delay:-2.68s;"/>
+<polygon class="hex-cell" points="1474.0,115.0 1474.0,161.0 1434.1,184.0 1394.3,161.0 1394.3,115.0 1434.1,92.0" style="animation-duration:7.95s; animation-delay:-5.73s;"/>
+<polygon class="hex-cell" points="1553.6,115.0 1553.6,161.0 1513.8,184.0 1474.0,161.0 1474.0,115.0 1513.8,92.0" style="animation-duration:4.88s; animation-delay:-1.36s;"/>
+<polygon class="hex-cell" points="1633.3,115.0 1633.3,161.0 1593.5,184.0 1553.6,161.0 1553.6,115.0 1593.5,92.0" style="animation-duration:4.82s; animation-delay:-3.74s;"/>
+<polygon class="hex-cell" points="1713.0,115.0 1713.0,161.0 1673.2,184.0 1633.3,161.0 1633.3,115.0 1673.2,92.0" style="animation-duration:7.36s; animation-delay:-2.88s;"/>
+<polygon class="hex-cell" points="79.7,184.0 79.7,230.0 39.8,253.0 -0.0,230.0 0.0,184.0 39.8,161.0" style="animation-duration:7.20s; animation-delay:-0.51s;"/>
+<polygon class="hex-cell" points="159.3,184.0 159.3,230.0 119.5,253.0 79.7,230.0 79.7,184.0 119.5,161.0" style="animation-duration:7.64s; animation-delay:-4.69s;"/>
+<polygon class="hex-cell" points="239.0,184.0 239.0,230.0 199.2,253.0 159.3,230.0 159.3,184.0 199.2,161.0" style="animation-duration:5.91s; animation-delay:-1.07s;"/>
+<polygon class="hex-cell" points="318.7,184.0 318.7,230.0 278.9,253.0 239.0,230.0 239.0,184.0 278.9,161.0" style="animation-duration:5.33s; animation-delay:-4.80s;"/>
+<polygon class="hex-cell" points="398.4,184.0 398.4,230.0 358.5,253.0 318.7,230.0 318.7,184.0 358.5,161.0" style="animation-duration:5.58s; animation-delay:-2.41s;"/>
+<polygon class="hex-cell" points="478.0,184.0 478.0,230.0 438.2,253.0 398.4,230.0 398.4,184.0 438.2,161.0" style="animation-duration:6.90s; animation-delay:-1.02s;"/>
+<polygon class="hex-cell" points="557.7,184.0 557.7,230.0 517.9,253.0 478.0,230.0 478.0,184.0 517.9,161.0" style="animation-duration:4.60s; animation-delay:-5.43s;"/>
+<polygon class="hex-cell" points="637.4,184.0 637.4,230.0 597.6,253.0 557.7,230.0 557.7,184.0 597.6,161.0" style="animation-duration:4.58s; animation-delay:-4.96s;"/>
+<polygon class="hex-cell" points="717.1,184.0 717.1,230.0 677.2,253.0 637.4,230.0 637.4,184.0 677.2,161.0" style="animation-duration:6.63s; animation-delay:-2.10s;"/>
+<polygon class="hex-cell" points="796.7,184.0 796.7,230.0 756.9,253.0 717.1,230.0 717.1,184.0 756.9,161.0" style="animation-duration:4.52s; animation-delay:-0.09s;"/>
+<polygon class="hex-cell" points="876.4,184.0 876.4,230.0 836.6,253.0 796.7,230.0 796.7,184.0 836.6,161.0" style="animation-duration:6.60s; animation-delay:-3.16s;"/>
+<polygon class="hex-cell" points="956.1,184.0 956.1,230.0 916.3,253.0 876.4,230.0 876.4,184.0 916.3,161.0" style="animation-duration:5.74s; animation-delay:-5.23s;"/>
+<polygon class="hex-cell" points="1035.8,184.0 1035.8,230.0 995.9,253.0 956.1,230.0 956.1,184.0 995.9,161.0" style="animation-duration:4.84s; animation-delay:-1.51s;"/>
+<polygon class="hex-cell" points="1115.4,184.0 1115.4,230.0 1075.6,253.0 1035.8,230.0 1035.8,184.0 1075.6,161.0" style="animation-duration:4.96s; animation-delay:-3.52s;"/>
+<polygon class="hex-cell" points="1195.1,184.0 1195.1,230.0 1155.3,253.0 1115.4,230.0 1115.4,184.0 1155.3,161.0" style="animation-duration:5.68s; animation-delay:-0.79s;"/>
+<polygon class="hex-cell" points="1274.8,184.0 1274.8,230.0 1235.0,253.0 1195.1,230.0 1195.1,184.0 1235.0,161.0" style="animation-duration:5.42s; animation-delay:-2.75s;"/>
+<polygon class="hex-cell" points="1354.5,184.0 1354.5,230.0 1314.6,253.0 1274.8,230.0 1274.8,184.0 1314.6,161.0" style="animation-duration:7.62s; animation-delay:-2.52s;"/>
+<polygon class="hex-cell" points="1434.1,184.0 1434.1,230.0 1394.3,253.0 1354.5,230.0 1354.5,184.0 1394.3,161.0" style="animation-duration:6.01s; animation-delay:-3.19s;"/>
+<polygon class="hex-cell" points="1513.8,184.0 1513.8,230.0 1474.0,253.0 1434.1,230.0 1434.1,184.0 1474.0,161.0" style="animation-duration:4.07s; animation-delay:-2.64s;"/>
+<polygon class="hex-cell" points="1593.5,184.0 1593.5,230.0 1553.6,253.0 1513.8,230.0 1513.8,184.0 1553.6,161.0" style="animation-duration:4.02s; animation-delay:-4.80s;"/>
+<polygon class="hex-cell" points="1673.2,184.0 1673.2,230.0 1633.3,253.0 1593.5,230.0 1593.5,184.0 1633.3,161.0" style="animation-duration:5.89s; animation-delay:-4.35s;"/>
+<polygon class="hex-cell" points="1752.8,184.0 1752.8,230.0 1713.0,253.0 1673.2,230.0 1673.2,184.0 1713.0,161.0" style="animation-duration:5.30s; animation-delay:-3.11s;"/>
+<polygon class="hex-cell" points="39.8,253.0 39.8,299.0 0.0,322.0 -39.8,299.0 -39.8,253.0 -0.0,230.0" style="animation-duration:7.14s; animation-delay:-0.64s;"/>
+<polygon class="hex-cell" points="119.5,253.0 119.5,299.0 79.7,322.0 39.8,299.0 39.8,253.0 79.7,230.0" style="animation-duration:4.99s; animation-delay:-1.66s;"/>
+<polygon class="hex-cell" points="199.2,253.0 199.2,299.0 159.3,322.0 119.5,299.0 119.5,253.0 159.3,230.0" style="animation-duration:6.03s; animation-delay:-3.37s;"/>
+<polygon class="hex-cell" points="278.9,253.0 278.9,299.0 239.0,322.0 199.2,299.0 199.2,253.0 239.0,230.0" style="animation-duration:7.65s; animation-delay:-2.66s;"/>
+<polygon class="hex-cell" points="358.5,253.0 358.5,299.0 318.7,322.0 278.9,299.0 278.9,253.0 318.7,230.0" style="animation-duration:6.02s; animation-delay:-3.07s;"/>
+<polygon class="hex-cell" points="438.2,253.0 438.2,299.0 398.4,322.0 358.5,299.0 358.5,253.0 398.4,230.0" style="animation-duration:5.81s; animation-delay:-3.20s;"/>
+<polygon class="hex-cell" points="517.9,253.0 517.9,299.0 478.0,322.0 438.2,299.0 438.2,253.0 478.0,230.0" style="animation-duration:7.77s; animation-delay:-4.20s;"/>
+<polygon class="hex-cell" points="597.6,253.0 597.6,299.0 557.7,322.0 517.9,299.0 517.9,253.0 557.7,230.0" style="animation-duration:7.77s; animation-delay:-1.56s;"/>
+<polygon class="hex-cell" points="677.2,253.0 677.2,299.0 637.4,322.0 597.6,299.0 597.6,253.0 637.4,230.0" style="animation-duration:7.77s; animation-delay:-5.04s;"/>
+<polygon class="hex-cell" points="756.9,253.0 756.9,299.0 717.1,322.0 677.2,299.0 677.2,253.0 717.1,230.0" style="animation-duration:4.49s; animation-delay:-2.65s;"/>
+<polygon class="hex-cell hex-bright" points="836.6,253.0 836.6,299.0 796.7,322.0 756.9,299.0 756.9,253.0 796.7,230.0" style="animation-duration:4.96s; animation-delay:-0.44s;"/>
+<polygon class="hex-cell" points="916.3,253.0 916.3,299.0 876.4,322.0 836.6,299.0 836.6,253.0 876.4,230.0" style="animation-duration:7.14s; animation-delay:-5.38s;"/>
+<polygon class="hex-cell" points="995.9,253.0 995.9,299.0 956.1,322.0 916.3,299.0 916.3,253.0 956.1,230.0" style="animation-duration:6.86s; animation-delay:-3.96s;"/>
+<polygon class="hex-cell" points="1075.6,253.0 1075.6,299.0 1035.8,322.0 995.9,299.0 995.9,253.0 1035.8,230.0" style="animation-duration:7.53s; animation-delay:-5.81s;"/>
+<polygon class="hex-cell" points="1155.3,253.0 1155.3,299.0 1115.4,322.0 1075.6,299.0 1075.6,253.0 1115.4,230.0" style="animation-duration:7.81s; animation-delay:-2.39s;"/>
+<polygon class="hex-cell" points="1235.0,253.0 1235.0,299.0 1195.1,322.0 1155.3,299.0 1155.3,253.0 1195.1,230.0" style="animation-duration:7.96s; animation-delay:-4.99s;"/>
+<polygon class="hex-cell" points="1314.6,253.0 1314.6,299.0 1274.8,322.0 1235.0,299.0 1235.0,253.0 1274.8,230.0" style="animation-duration:5.73s; animation-delay:-3.09s;"/>
+<polygon class="hex-cell" points="1394.3,253.0 1394.3,299.0 1354.5,322.0 1314.6,299.0 1314.6,253.0 1354.5,230.0" style="animation-duration:4.78s; animation-delay:-1.91s;"/>
+<polygon class="hex-cell" points="1474.0,253.0 1474.0,299.0 1434.1,322.0 1394.3,299.0 1394.3,253.0 1434.1,230.0" style="animation-duration:4.08s; animation-delay:-3.32s;"/>
+<polygon class="hex-cell" points="1553.6,253.0 1553.6,299.0 1513.8,322.0 1474.0,299.0 1474.0,253.0 1513.8,230.0" style="animation-duration:4.07s; animation-delay:-1.99s;"/>
+<polygon class="hex-cell" points="1633.3,253.0 1633.3,299.0 1593.5,322.0 1553.6,299.0 1553.6,253.0 1593.5,230.0" style="animation-duration:6.05s; animation-delay:-0.39s;"/>
+<polygon class="hex-cell" points="1713.0,253.0 1713.0,299.0 1673.2,322.0 1633.3,299.0 1633.3,253.0 1673.2,230.0" style="animation-duration:7.15s; animation-delay:-5.83s;"/>
+<polygon class="hex-cell" points="79.7,322.0 79.7,368.0 39.8,391.0 -0.0,368.0 0.0,322.0 39.8,299.0" style="animation-duration:5.06s; animation-delay:-0.24s;"/>
+<polygon class="hex-cell" points="159.3,322.0 159.3,368.0 119.5,391.0 79.7,368.0 79.7,322.0 119.5,299.0" style="animation-duration:5.08s; animation-delay:-0.78s;"/>
+<polygon class="hex-cell" points="239.0,322.0 239.0,368.0 199.2,391.0 159.3,368.0 159.3,322.0 199.2,299.0" style="animation-duration:7.65s; animation-delay:-4.91s;"/>
+<polygon class="hex-cell" points="318.7,322.0 318.7,368.0 278.9,391.0 239.0,368.0 239.0,322.0 278.9,299.0" style="animation-duration:4.60s; animation-delay:-5.52s;"/>
+<polygon class="hex-cell" points="398.4,322.0 398.4,368.0 358.5,391.0 318.7,368.0 318.7,322.0 358.5,299.0" style="animation-duration:6.80s; animation-delay:-0.54s;"/>
+<polygon class="hex-cell hex-bright" points="478.0,322.0 478.0,368.0 438.2,391.0 398.4,368.0 398.4,322.0 438.2,299.0" style="animation-duration:6.75s; animation-delay:-2.55s;"/>
+<polygon class="hex-cell hex-bright" points="557.7,322.0 557.7,368.0 517.9,391.0 478.0,368.0 478.0,322.0 517.9,299.0" style="animation-duration:7.75s; animation-delay:-3.81s;"/>
+<polygon class="hex-cell" points="637.4,322.0 637.4,368.0 597.6,391.0 557.7,368.0 557.7,322.0 597.6,299.0" style="animation-duration:4.33s; animation-delay:-5.14s;"/>
+<polygon class="hex-cell hex-bright" points="717.1,322.0 717.1,368.0 677.2,391.0 637.4,368.0 637.4,322.0 677.2,299.0" style="animation-duration:7.45s; animation-delay:-2.72s;"/>
+<polygon class="hex-cell" points="796.7,322.0 796.7,368.0 756.9,391.0 717.1,368.0 717.1,322.0 756.9,299.0" style="animation-duration:6.21s; animation-delay:-5.56s;"/>
+<polygon class="hex-cell" points="876.4,322.0 876.4,368.0 836.6,391.0 796.7,368.0 796.7,322.0 836.6,299.0" style="animation-duration:4.52s; animation-delay:-3.16s;"/>
+<polygon class="hex-cell" points="956.1,322.0 956.1,368.0 916.3,391.0 876.4,368.0 876.4,322.0 916.3,299.0" style="animation-duration:4.44s; animation-delay:-0.97s;"/>
+<polygon class="hex-cell hex-bright" points="1035.8,322.0 1035.8,368.0 995.9,391.0 956.1,368.0 956.1,322.0 995.9,299.0" style="animation-duration:4.81s; animation-delay:-1.87s;"/>
+<polygon class="hex-cell" points="1115.4,322.0 1115.4,368.0 1075.6,391.0 1035.8,368.0 1035.8,322.0 1075.6,299.0" style="animation-duration:7.04s; animation-delay:-1.74s;"/>
+<polygon class="hex-cell" points="1195.1,322.0 1195.1,368.0 1155.3,391.0 1115.4,368.0 1115.4,322.0 1155.3,299.0" style="animation-duration:4.71s; animation-delay:-2.08s;"/>
+<polygon class="hex-cell hex-bright" points="1274.8,322.0 1274.8,368.0 1235.0,391.0 1195.1,368.0 1195.1,322.0 1235.0,299.0" style="animation-duration:5.00s; animation-delay:-0.09s;"/>
+<polygon class="hex-cell" points="1354.5,322.0 1354.5,368.0 1314.6,391.0 1274.8,368.0 1274.8,322.0 1314.6,299.0" style="animation-duration:6.20s; animation-delay:-1.14s;"/>
+<polygon class="hex-cell" points="1434.1,322.0 1434.1,368.0 1394.3,391.0 1354.5,368.0 1354.5,322.0 1394.3,299.0" style="animation-duration:7.74s; animation-delay:-0.64s;"/>
+<polygon class="hex-cell" points="1513.8,322.0 1513.8,368.0 1474.0,391.0 1434.1,368.0 1434.1,322.0 1474.0,299.0" style="animation-duration:5.73s; animation-delay:-2.97s;"/>
+<polygon class="hex-cell" points="1593.5,322.0 1593.5,368.0 1553.6,391.0 1513.8,368.0 1513.8,322.0 1553.6,299.0" style="animation-duration:5.57s; animation-delay:-3.04s;"/>
+<polygon class="hex-cell" points="1673.2,322.0 1673.2,368.0 1633.3,391.0 1593.5,368.0 1593.5,322.0 1633.3,299.0" style="animation-duration:7.93s; animation-delay:-2.06s;"/>
+<polygon class="hex-cell" points="1752.8,322.0 1752.8,368.0 1713.0,391.0 1673.2,368.0 1673.2,322.0 1713.0,299.0" style="animation-duration:6.83s; animation-delay:-3.82s;"/>
+<polygon class="hex-cell" points="39.8,391.0 39.8,437.0 0.0,460.0 -39.8,437.0 -39.8,391.0 -0.0,368.0" style="animation-duration:5.39s; animation-delay:-0.33s;"/>
+<polygon class="hex-cell" points="119.5,391.0 119.5,437.0 79.7,460.0 39.8,437.0 39.8,391.0 79.7,368.0" style="animation-duration:4.28s; animation-delay:-4.45s;"/>
+<polygon class="hex-cell" points="199.2,391.0 199.2,437.0 159.3,460.0 119.5,437.0 119.5,391.0 159.3,368.0" style="animation-duration:4.65s; animation-delay:-0.51s;"/>
+<polygon class="hex-cell" points="278.9,391.0 278.9,437.0 239.0,460.0 199.2,437.0 199.2,391.0 239.0,368.0" style="animation-duration:7.48s; animation-delay:-4.02s;"/>
+<polygon class="hex-cell" points="358.5,391.0 358.5,437.0 318.7,460.0 278.9,437.0 278.9,391.0 318.7,368.0" style="animation-duration:4.97s; animation-delay:-1.76s;"/>
+<polygon class="hex-cell" points="438.2,391.0 438.2,437.0 398.4,460.0 358.5,437.0 358.5,391.0 398.4,368.0" style="animation-duration:4.63s; animation-delay:-2.67s;"/>
+<polygon class="hex-cell" points="517.9,391.0 517.9,437.0 478.0,460.0 438.2,437.0 438.2,391.0 478.0,368.0" style="animation-duration:7.85s; animation-delay:-5.84s;"/>
+<polygon class="hex-cell" points="597.6,391.0 597.6,437.0 557.7,460.0 517.9,437.0 517.9,391.0 557.7,368.0" style="animation-duration:4.98s; animation-delay:-5.79s;"/>
+<polygon class="hex-cell" points="677.2,391.0 677.2,437.0 637.4,460.0 597.6,437.0 597.6,391.0 637.4,368.0" style="animation-duration:5.43s; animation-delay:-0.01s;"/>
+<polygon class="hex-cell" points="756.9,391.0 756.9,437.0 717.1,460.0 677.2,437.0 677.2,391.0 717.1,368.0" style="animation-duration:5.90s; animation-delay:-3.02s;"/>
+<polygon class="hex-cell" points="836.6,391.0 836.6,437.0 796.7,460.0 756.9,437.0 756.9,391.0 796.7,368.0" style="animation-duration:6.02s; animation-delay:-0.03s;"/>
+<polygon class="hex-cell" points="916.3,391.0 916.3,437.0 876.4,460.0 836.6,437.0 836.6,391.0 876.4,368.0" style="animation-duration:4.36s; animation-delay:-2.40s;"/>
+<polygon class="hex-cell hex-bright" points="995.9,391.0 995.9,437.0 956.1,460.0 916.3,437.0 916.3,391.0 956.1,368.0" style="animation-duration:4.09s; animation-delay:-1.83s;"/>
+<polygon class="hex-cell" points="1075.6,391.0 1075.6,437.0 1035.8,460.0 995.9,437.0 995.9,391.0 1035.8,368.0" style="animation-duration:6.34s; animation-delay:-3.18s;"/>
+<polygon class="hex-cell" points="1155.3,391.0 1155.3,437.0 1115.4,460.0 1075.6,437.0 1075.6,391.0 1115.4,368.0" style="animation-duration:6.63s; animation-delay:-4.30s;"/>
+<polygon class="hex-cell" points="1235.0,391.0 1235.0,437.0 1195.1,460.0 1155.3,437.0 1155.3,391.0 1195.1,368.0" style="animation-duration:5.56s; animation-delay:-1.96s;"/>
+<polygon class="hex-cell" points="1314.6,391.0 1314.6,437.0 1274.8,460.0 1235.0,437.0 1235.0,391.0 1274.8,368.0" style="animation-duration:4.60s; animation-delay:-4.34s;"/>
+<polygon class="hex-cell" points="1394.3,391.0 1394.3,437.0 1354.5,460.0 1314.6,437.0 1314.6,391.0 1354.5,368.0" style="animation-duration:4.18s; animation-delay:-5.01s;"/>
+<polygon class="hex-cell" points="1474.0,391.0 1474.0,437.0 1434.1,460.0 1394.3,437.0 1394.3,391.0 1434.1,368.0" style="animation-duration:6.51s; animation-delay:-4.40s;"/>
+<polygon class="hex-cell" points="1553.6,391.0 1553.6,437.0 1513.8,460.0 1474.0,437.0 1474.0,391.0 1513.8,368.0" style="animation-duration:4.56s; animation-delay:-3.14s;"/>
+<polygon class="hex-cell" points="1633.3,391.0 1633.3,437.0 1593.5,460.0 1553.6,437.0 1553.6,391.0 1593.5,368.0" style="animation-duration:7.34s; animation-delay:-4.83s;"/>
+<polygon class="hex-cell" points="1713.0,391.0 1713.0,437.0 1673.2,460.0 1633.3,437.0 1633.3,391.0 1673.2,368.0" style="animation-duration:6.34s; animation-delay:-5.36s;"/>
+<polygon class="hex-cell" points="79.7,460.0 79.7,506.0 39.8,529.0 -0.0,506.0 0.0,460.0 39.8,437.0" style="animation-duration:6.77s; animation-delay:-1.38s;"/>
+<polygon class="hex-cell hex-bright" points="159.3,460.0 159.3,506.0 119.5,529.0 79.7,506.0 79.7,460.0 119.5,437.0" style="animation-duration:4.53s; animation-delay:-2.16s;"/>
+<polygon class="hex-cell" points="239.0,460.0 239.0,506.0 199.2,529.0 159.3,506.0 159.3,460.0 199.2,437.0" style="animation-duration:7.34s; animation-delay:-3.35s;"/>
+<polygon class="hex-cell" points="318.7,460.0 318.7,506.0 278.9,529.0 239.0,506.0 239.0,460.0 278.9,437.0" style="animation-duration:6.50s; animation-delay:-4.08s;"/>
+<polygon class="hex-cell" points="398.4,460.0 398.4,506.0 358.5,529.0 318.7,506.0 318.7,460.0 358.5,437.0" style="animation-duration:4.01s; animation-delay:-4.79s;"/>
+<polygon class="hex-cell" points="478.0,460.0 478.0,506.0 438.2,529.0 398.4,506.0 398.4,460.0 438.2,437.0" style="animation-duration:6.01s; animation-delay:-3.21s;"/>
+<polygon class="hex-cell" points="557.7,460.0 557.7,506.0 517.9,529.0 478.0,506.0 478.0,460.0 517.9,437.0" style="animation-duration:4.26s; animation-delay:-4.42s;"/>
+<polygon class="hex-cell" points="637.4,460.0 637.4,506.0 597.6,529.0 557.7,506.0 557.7,460.0 597.6,437.0" style="animation-duration:4.30s; animation-delay:-1.59s;"/>
+<polygon class="hex-cell" points="717.1,460.0 717.1,506.0 677.2,529.0 637.4,506.0 637.4,460.0 677.2,437.0" style="animation-duration:4.82s; animation-delay:-4.44s;"/>
+<polygon class="hex-cell" points="796.7,460.0 796.7,506.0 756.9,529.0 717.1,506.0 717.1,460.0 756.9,437.0" style="animation-duration:5.98s; animation-delay:-2.30s;"/>
+<polygon class="hex-cell" points="876.4,460.0 876.4,506.0 836.6,529.0 796.7,506.0 796.7,460.0 836.6,437.0" style="animation-duration:6.73s; animation-delay:-4.60s;"/>
+<polygon class="hex-cell" points="956.1,460.0 956.1,506.0 916.3,529.0 876.4,506.0 876.4,460.0 916.3,437.0" style="animation-duration:6.57s; animation-delay:-0.46s;"/>
+<polygon class="hex-cell" points="1035.8,460.0 1035.8,506.0 995.9,529.0 956.1,506.0 956.1,460.0 995.9,437.0" style="animation-duration:5.02s; animation-delay:-4.46s;"/>
+<polygon class="hex-cell" points="1115.4,460.0 1115.4,506.0 1075.6,529.0 1035.8,506.0 1035.8,460.0 1075.6,437.0" style="animation-duration:6.27s; animation-delay:-0.07s;"/>
+<polygon class="hex-cell hex-bright" points="1195.1,460.0 1195.1,506.0 1155.3,529.0 1115.4,506.0 1115.4,460.0 1155.3,437.0" style="animation-duration:5.08s; animation-delay:-4.03s;"/>
+<polygon class="hex-cell" points="1274.8,460.0 1274.8,506.0 1235.0,529.0 1195.1,506.0 1195.1,460.0 1235.0,437.0" style="animation-duration:6.70s; animation-delay:-1.75s;"/>
+<polygon class="hex-cell" points="1354.5,460.0 1354.5,506.0 1314.6,529.0 1274.8,506.0 1274.8,460.0 1314.6,437.0" style="animation-duration:5.86s; animation-delay:-2.80s;"/>
+<polygon class="hex-cell" points="1434.1,460.0 1434.1,506.0 1394.3,529.0 1354.5,506.0 1354.5,460.0 1394.3,437.0" style="animation-duration:7.57s; animation-delay:-1.20s;"/>
+<polygon class="hex-cell" points="1513.8,460.0 1513.8,506.0 1474.0,529.0 1434.1,506.0 1434.1,460.0 1474.0,437.0" style="animation-duration:7.75s; animation-delay:-0.11s;"/>
+<polygon class="hex-cell" points="1593.5,460.0 1593.5,506.0 1553.6,529.0 1513.8,506.0 1513.8,460.0 1553.6,437.0" style="animation-duration:7.28s; animation-delay:-5.81s;"/>
+<polygon class="hex-cell" points="1673.2,460.0 1673.2,506.0 1633.3,529.0 1593.5,506.0 1593.5,460.0 1633.3,437.0" style="animation-duration:5.07s; animation-delay:-1.26s;"/>
+<polygon class="hex-cell" points="1752.8,460.0 1752.8,506.0 1713.0,529.0 1673.2,506.0 1673.2,460.0 1713.0,437.0" style="animation-duration:4.84s; animation-delay:-3.49s;"/>
+<polygon class="hex-cell" points="39.8,529.0 39.8,575.0 0.0,598.0 -39.8,575.0 -39.8,529.0 -0.0,506.0" style="animation-duration:6.10s; animation-delay:-5.72s;"/>
+<polygon class="hex-cell" points="119.5,529.0 119.5,575.0 79.7,598.0 39.8,575.0 39.8,529.0 79.7,506.0" style="animation-duration:7.28s; animation-delay:-3.05s;"/>
+<polygon class="hex-cell" points="199.2,529.0 199.2,575.0 159.3,598.0 119.5,575.0 119.5,529.0 159.3,506.0" style="animation-duration:6.81s; animation-delay:-1.39s;"/>
+<polygon class="hex-cell" points="278.9,529.0 278.9,575.0 239.0,598.0 199.2,575.0 199.2,529.0 239.0,506.0" style="animation-duration:5.94s; animation-delay:-0.15s;"/>
+<polygon class="hex-cell hex-bright" points="358.5,529.0 358.5,575.0 318.7,598.0 278.9,575.0 278.9,529.0 318.7,506.0" style="animation-duration:5.97s; animation-delay:-2.70s;"/>
+<polygon class="hex-cell" points="438.2,529.0 438.2,575.0 398.4,598.0 358.5,575.0 358.5,529.0 398.4,506.0" style="animation-duration:4.56s; animation-delay:-2.06s;"/>
+<polygon class="hex-cell" points="517.9,529.0 517.9,575.0 478.0,598.0 438.2,575.0 438.2,529.0 478.0,506.0" style="animation-duration:7.36s; animation-delay:-0.01s;"/>
+<polygon class="hex-cell" points="597.6,529.0 597.6,575.0 557.7,598.0 517.9,575.0 517.9,529.0 557.7,506.0" style="animation-duration:7.36s; animation-delay:-0.72s;"/>
+<polygon class="hex-cell" points="677.2,529.0 677.2,575.0 637.4,598.0 597.6,575.0 597.6,529.0 637.4,506.0" style="animation-duration:6.85s; animation-delay:-5.41s;"/>
+<polygon class="hex-cell" points="756.9,529.0 756.9,575.0 717.1,598.0 677.2,575.0 677.2,529.0 717.1,506.0" style="animation-duration:5.49s; animation-delay:-2.36s;"/>
+<polygon class="hex-cell" points="836.6,529.0 836.6,575.0 796.7,598.0 756.9,575.0 756.9,529.0 796.7,506.0" style="animation-duration:6.36s; animation-delay:-2.16s;"/>
+<polygon class="hex-cell" points="916.3,529.0 916.3,575.0 876.4,598.0 836.6,575.0 836.6,529.0 876.4,506.0" style="animation-duration:5.10s; animation-delay:-0.29s;"/>
+<polygon class="hex-cell" points="995.9,529.0 995.9,575.0 956.1,598.0 916.3,575.0 916.3,529.0 956.1,506.0" style="animation-duration:7.34s; animation-delay:-1.71s;"/>
+<polygon class="hex-cell" points="1075.6,529.0 1075.6,575.0 1035.8,598.0 995.9,575.0 995.9,529.0 1035.8,506.0" style="animation-duration:5.00s; animation-delay:-1.59s;"/>
+<polygon class="hex-cell" points="1155.3,529.0 1155.3,575.0 1115.4,598.0 1075.6,575.0 1075.6,529.0 1115.4,506.0" style="animation-duration:4.76s; animation-delay:-2.24s;"/>
+<polygon class="hex-cell" points="1235.0,529.0 1235.0,575.0 1195.1,598.0 1155.3,575.0 1155.3,529.0 1195.1,506.0" style="animation-duration:7.54s; animation-delay:-4.87s;"/>
+<polygon class="hex-cell" points="1314.6,529.0 1314.6,575.0 1274.8,598.0 1235.0,575.0 1235.0,529.0 1274.8,506.0" style="animation-duration:7.65s; animation-delay:-5.64s;"/>
+<polygon class="hex-cell" points="1394.3,529.0 1394.3,575.0 1354.5,598.0 1314.6,575.0 1314.6,529.0 1354.5,506.0" style="animation-duration:6.88s; animation-delay:-0.30s;"/>
+<polygon class="hex-cell" points="1474.0,529.0 1474.0,575.0 1434.1,598.0 1394.3,575.0 1394.3,529.0 1434.1,506.0" style="animation-duration:5.80s; animation-delay:-4.52s;"/>
+<polygon class="hex-cell" points="1553.6,529.0 1553.6,575.0 1513.8,598.0 1474.0,575.0 1474.0,529.0 1513.8,506.0" style="animation-duration:5.14s; animation-delay:-0.29s;"/>
+<polygon class="hex-cell" points="1633.3,529.0 1633.3,575.0 1593.5,598.0 1553.6,575.0 1553.6,529.0 1593.5,506.0" style="animation-duration:4.51s; animation-delay:-2.83s;"/>
+<polygon class="hex-cell" points="1713.0,529.0 1713.0,575.0 1673.2,598.0 1633.3,575.0 1633.3,529.0 1673.2,506.0" style="animation-duration:5.19s; animation-delay:-4.43s;"/>
+<polygon class="hex-cell" points="79.7,598.0 79.7,644.0 39.8,667.0 -0.0,644.0 0.0,598.0 39.8,575.0" style="animation-duration:5.04s; animation-delay:-3.94s;"/>
+<polygon class="hex-cell" points="159.3,598.0 159.3,644.0 119.5,667.0 79.7,644.0 79.7,598.0 119.5,575.0" style="animation-duration:6.23s; animation-delay:-2.37s;"/>
+<polygon class="hex-cell" points="239.0,598.0 239.0,644.0 199.2,667.0 159.3,644.0 159.3,598.0 199.2,575.0" style="animation-duration:4.65s; animation-delay:-1.25s;"/>
+<polygon class="hex-cell" points="318.7,598.0 318.7,644.0 278.9,667.0 239.0,644.0 239.0,598.0 278.9,575.0" style="animation-duration:5.99s; animation-delay:-1.32s;"/>
+<polygon class="hex-cell" points="398.4,598.0 398.4,644.0 358.5,667.0 318.7,644.0 318.7,598.0 358.5,575.0" style="animation-duration:7.99s; animation-delay:-2.70s;"/>
+<polygon class="hex-cell" points="478.0,598.0 478.0,644.0 438.2,667.0 398.4,644.0 398.4,598.0 438.2,575.0" style="animation-duration:4.77s; animation-delay:-0.54s;"/>
+<polygon class="hex-cell" points="557.7,598.0 557.7,644.0 517.9,667.0 478.0,644.0 478.0,598.0 517.9,575.0" style="animation-duration:4.36s; animation-delay:-1.43s;"/>
+<polygon class="hex-cell" points="637.4,598.0 637.4,644.0 597.6,667.0 557.7,644.0 557.7,598.0 597.6,575.0" style="animation-duration:6.28s; animation-delay:-5.32s;"/>
+<polygon class="hex-cell" points="717.1,598.0 717.1,644.0 677.2,667.0 637.4,644.0 637.4,598.0 677.2,575.0" style="animation-duration:5.65s; animation-delay:-2.48s;"/>
+<polygon class="hex-cell" points="796.7,598.0 796.7,644.0 756.9,667.0 717.1,644.0 717.1,598.0 756.9,575.0" style="animation-duration:5.51s; animation-delay:-2.03s;"/>
+<polygon class="hex-cell hex-bright" points="876.4,598.0 876.4,644.0 836.6,667.0 796.7,644.0 796.7,598.0 836.6,575.0" style="animation-duration:5.11s; animation-delay:-5.81s;"/>
+<polygon class="hex-cell" points="956.1,598.0 956.1,644.0 916.3,667.0 876.4,644.0 876.4,598.0 916.3,575.0" style="animation-duration:6.01s; animation-delay:-3.78s;"/>
+<polygon class="hex-cell" points="1035.8,598.0 1035.8,644.0 995.9,667.0 956.1,644.0 956.1,598.0 995.9,575.0" style="animation-duration:4.86s; animation-delay:-1.63s;"/>
+<polygon class="hex-cell" points="1115.4,598.0 1115.4,644.0 1075.6,667.0 1035.8,644.0 1035.8,598.0 1075.6,575.0" style="animation-duration:5.60s; animation-delay:-2.68s;"/>
+<polygon class="hex-cell" points="1195.1,598.0 1195.1,644.0 1155.3,667.0 1115.4,644.0 1115.4,598.0 1155.3,575.0" style="animation-duration:7.39s; animation-delay:-5.24s;"/>
+<polygon class="hex-cell hex-bright" points="1274.8,598.0 1274.8,644.0 1235.0,667.0 1195.1,644.0 1195.1,598.0 1235.0,575.0" style="animation-duration:4.13s; animation-delay:-4.26s;"/>
+<polygon class="hex-cell" points="1354.5,598.0 1354.5,644.0 1314.6,667.0 1274.8,644.0 1274.8,598.0 1314.6,575.0" style="animation-duration:5.89s; animation-delay:-3.52s;"/>
+<polygon class="hex-cell hex-bright" points="1434.1,598.0 1434.1,644.0 1394.3,667.0 1354.5,644.0 1354.5,598.0 1394.3,575.0" style="animation-duration:5.57s; animation-delay:-5.56s;"/>
+<polygon class="hex-cell" points="1513.8,598.0 1513.8,644.0 1474.0,667.0 1434.1,644.0 1434.1,598.0 1474.0,575.0" style="animation-duration:7.42s; animation-delay:-5.83s;"/>
+<polygon class="hex-cell" points="1593.5,598.0 1593.5,644.0 1553.6,667.0 1513.8,644.0 1513.8,598.0 1553.6,575.0" style="animation-duration:4.44s; animation-delay:-0.93s;"/>
+<polygon class="hex-cell" points="1673.2,598.0 1673.2,644.0 1633.3,667.0 1593.5,644.0 1593.5,598.0 1633.3,575.0" style="animation-duration:6.73s; animation-delay:-5.65s;"/>
+<polygon class="hex-cell" points="1752.8,598.0 1752.8,644.0 1713.0,667.0 1673.2,644.0 1673.2,598.0 1713.0,575.0" style="animation-duration:6.59s; animation-delay:-4.59s;"/>
+<polygon class="hex-cell" points="39.8,667.0 39.8,713.0 0.0,736.0 -39.8,713.0 -39.8,667.0 -0.0,644.0" style="animation-duration:6.21s; animation-delay:-0.24s;"/>
+<polygon class="hex-cell" points="119.5,667.0 119.5,713.0 79.7,736.0 39.8,713.0 39.8,667.0 79.7,644.0" style="animation-duration:4.93s; animation-delay:-5.52s;"/>
+<polygon class="hex-cell" points="199.2,667.0 199.2,713.0 159.3,736.0 119.5,713.0 119.5,667.0 159.3,644.0" style="animation-duration:5.22s; animation-delay:-0.77s;"/>
+<polygon class="hex-cell" points="278.9,667.0 278.9,713.0 239.0,736.0 199.2,713.0 199.2,667.0 239.0,644.0" style="animation-duration:6.55s; animation-delay:-4.19s;"/>
+<polygon class="hex-cell" points="358.5,667.0 358.5,713.0 318.7,736.0 278.9,713.0 278.9,667.0 318.7,644.0" style="animation-duration:4.28s; animation-delay:-3.15s;"/>
+<polygon class="hex-cell" points="438.2,667.0 438.2,713.0 398.4,736.0 358.5,713.0 358.5,667.0 398.4,644.0" style="animation-duration:5.55s; animation-delay:-1.34s;"/>
+<polygon class="hex-cell" points="517.9,667.0 517.9,713.0 478.0,736.0 438.2,713.0 438.2,667.0 478.0,644.0" style="animation-duration:4.04s; animation-delay:-1.81s;"/>
+<polygon class="hex-cell" points="597.6,667.0 597.6,713.0 557.7,736.0 517.9,713.0 517.9,667.0 557.7,644.0" style="animation-duration:7.84s; animation-delay:-3.87s;"/>
+<polygon class="hex-cell" points="677.2,667.0 677.2,713.0 637.4,736.0 597.6,713.0 597.6,667.0 637.4,644.0" style="animation-duration:5.90s; animation-delay:-1.41s;"/>
+<polygon class="hex-cell" points="756.9,667.0 756.9,713.0 717.1,736.0 677.2,713.0 677.2,667.0 717.1,644.0" style="animation-duration:7.84s; animation-delay:-4.23s;"/>
+<polygon class="hex-cell" points="836.6,667.0 836.6,713.0 796.7,736.0 756.9,713.0 756.9,667.0 796.7,644.0" style="animation-duration:4.09s; animation-delay:-2.99s;"/>
+<polygon class="hex-cell" points="916.3,667.0 916.3,713.0 876.4,736.0 836.6,713.0 836.6,667.0 876.4,644.0" style="animation-duration:5.68s; animation-delay:-1.54s;"/>
+<polygon class="hex-cell" points="995.9,667.0 995.9,713.0 956.1,736.0 916.3,713.0 916.3,667.0 956.1,644.0" style="animation-duration:7.70s; animation-delay:-1.36s;"/>
+<polygon class="hex-cell hex-bright" points="1075.6,667.0 1075.6,713.0 1035.8,736.0 995.9,713.0 995.9,667.0 1035.8,644.0" style="animation-duration:5.35s; animation-delay:-2.52s;"/>
+<polygon class="hex-cell" points="1155.3,667.0 1155.3,713.0 1115.4,736.0 1075.6,713.0 1075.6,667.0 1115.4,644.0" style="animation-duration:4.79s; animation-delay:-4.78s;"/>
+<polygon class="hex-cell" points="1235.0,667.0 1235.0,713.0 1195.1,736.0 1155.3,713.0 1155.3,667.0 1195.1,644.0" style="animation-duration:6.02s; animation-delay:-1.23s;"/>
+<polygon class="hex-cell" points="1314.6,667.0 1314.6,713.0 1274.8,736.0 1235.0,713.0 1235.0,667.0 1274.8,644.0" style="animation-duration:5.25s; animation-delay:-4.92s;"/>
+<polygon class="hex-cell" points="1394.3,667.0 1394.3,713.0 1354.5,736.0 1314.6,713.0 1314.6,667.0 1354.5,644.0" style="animation-duration:4.89s; animation-delay:-4.56s;"/>
+<polygon class="hex-cell" points="1474.0,667.0 1474.0,713.0 1434.1,736.0 1394.3,713.0 1394.3,667.0 1434.1,644.0" style="animation-duration:7.81s; animation-delay:-2.97s;"/>
+<polygon class="hex-cell" points="1553.6,667.0 1553.6,713.0 1513.8,736.0 1474.0,713.0 1474.0,667.0 1513.8,644.0" style="animation-duration:4.89s; animation-delay:-2.50s;"/>
+<polygon class="hex-cell" points="1633.3,667.0 1633.3,713.0 1593.5,736.0 1553.6,713.0 1553.6,667.0 1593.5,644.0" style="animation-duration:7.80s; animation-delay:-0.88s;"/>
+<polygon class="hex-cell" points="1713.0,667.0 1713.0,713.0 1673.2,736.0 1633.3,713.0 1633.3,667.0 1673.2,644.0" style="animation-duration:4.85s; animation-delay:-5.84s;"/>
+<polygon class="hex-cell" points="79.7,736.0 79.7,782.0 39.8,805.0 -0.0,782.0 0.0,736.0 39.8,713.0" style="animation-duration:4.21s; animation-delay:-0.36s;"/>
+<polygon class="hex-cell" points="159.3,736.0 159.3,782.0 119.5,805.0 79.7,782.0 79.7,736.0 119.5,713.0" style="animation-duration:7.59s; animation-delay:-5.30s;"/>
+<polygon class="hex-cell" points="239.0,736.0 239.0,782.0 199.2,805.0 159.3,782.0 159.3,736.0 199.2,713.0" style="animation-duration:7.99s; animation-delay:-5.59s;"/>
+<polygon class="hex-cell" points="318.7,736.0 318.7,782.0 278.9,805.0 239.0,782.0 239.0,736.0 278.9,713.0" style="animation-duration:4.74s; animation-delay:-5.62s;"/>
+<polygon class="hex-cell" points="398.4,736.0 398.4,782.0 358.5,805.0 318.7,782.0 318.7,736.0 358.5,713.0" style="animation-duration:4.13s; animation-delay:-3.99s;"/>
+<polygon class="hex-cell" points="478.0,736.0 478.0,782.0 438.2,805.0 398.4,782.0 398.4,736.0 438.2,713.0" style="animation-duration:5.50s; animation-delay:-1.99s;"/>
+<polygon class="hex-cell" points="557.7,736.0 557.7,782.0 517.9,805.0 478.0,782.0 478.0,736.0 517.9,713.0" style="animation-duration:4.01s; animation-delay:-1.68s;"/>
+<polygon class="hex-cell" points="637.4,736.0 637.4,782.0 597.6,805.0 557.7,782.0 557.7,736.0 597.6,713.0" style="animation-duration:7.82s; animation-delay:-0.74s;"/>
+<polygon class="hex-cell" points="717.1,736.0 717.1,782.0 677.2,805.0 637.4,782.0 637.4,736.0 677.2,713.0" style="animation-duration:4.83s; animation-delay:-2.14s;"/>
+<polygon class="hex-cell" points="796.7,736.0 796.7,782.0 756.9,805.0 717.1,782.0 717.1,736.0 756.9,713.0" style="animation-duration:7.29s; animation-delay:-2.59s;"/>
+<polygon class="hex-cell hex-bright" points="876.4,736.0 876.4,782.0 836.6,805.0 796.7,782.0 796.7,736.0 836.6,713.0" style="animation-duration:5.89s; animation-delay:-2.24s;"/>
+<polygon class="hex-cell" points="956.1,736.0 956.1,782.0 916.3,805.0 876.4,782.0 876.4,736.0 916.3,713.0" style="animation-duration:4.77s; animation-delay:-2.19s;"/>
+<polygon class="hex-cell" points="1035.8,736.0 1035.8,782.0 995.9,805.0 956.1,782.0 956.1,736.0 995.9,713.0" style="animation-duration:4.12s; animation-delay:-2.46s;"/>
+<polygon class="hex-cell" points="1115.4,736.0 1115.4,782.0 1075.6,805.0 1035.8,782.0 1035.8,736.0 1075.6,713.0" style="animation-duration:7.07s; animation-delay:-0.24s;"/>
+<polygon class="hex-cell hex-bright" points="1195.1,736.0 1195.1,782.0 1155.3,805.0 1115.4,782.0 1115.4,736.0 1155.3,713.0" style="animation-duration:4.25s; animation-delay:-5.52s;"/>
+<polygon class="hex-cell" points="1274.8,736.0 1274.8,782.0 1235.0,805.0 1195.1,782.0 1195.1,736.0 1235.0,713.0" style="animation-duration:6.99s; animation-delay:-5.39s;"/>
+<polygon class="hex-cell" points="1354.5,736.0 1354.5,782.0 1314.6,805.0 1274.8,782.0 1274.8,736.0 1314.6,713.0" style="animation-duration:5.09s; animation-delay:-5.75s;"/>
+<polygon class="hex-cell" points="1434.1,736.0 1434.1,782.0 1394.3,805.0 1354.5,782.0 1354.5,736.0 1394.3,713.0" style="animation-duration:5.05s; animation-delay:-4.30s;"/>
+<polygon class="hex-cell" points="1513.8,736.0 1513.8,782.0 1474.0,805.0 1434.1,782.0 1434.1,736.0 1474.0,713.0" style="animation-duration:5.10s; animation-delay:-0.02s;"/>
+<polygon class="hex-cell" points="1593.5,736.0 1593.5,782.0 1553.6,805.0 1513.8,782.0 1513.8,736.0 1553.6,713.0" style="animation-duration:7.67s; animation-delay:-3.80s;"/>
+<polygon class="hex-cell" points="1673.2,736.0 1673.2,782.0 1633.3,805.0 1593.5,782.0 1593.5,736.0 1633.3,713.0" style="animation-duration:4.10s; animation-delay:-1.40s;"/>
+<polygon class="hex-cell" points="1752.8,736.0 1752.8,782.0 1713.0,805.0 1673.2,782.0 1673.2,736.0 1713.0,713.0" style="animation-duration:7.83s; animation-delay:-5.72s;"/>
+<polygon class="hex-cell" points="39.8,805.0 39.8,851.0 0.0,874.0 -39.8,851.0 -39.8,805.0 -0.0,782.0" style="animation-duration:5.00s; animation-delay:-2.58s;"/>
+<polygon class="hex-cell" points="119.5,805.0 119.5,851.0 79.7,874.0 39.8,851.0 39.8,805.0 79.7,782.0" style="animation-duration:7.71s; animation-delay:-1.10s;"/>
+<polygon class="hex-cell" points="199.2,805.0 199.2,851.0 159.3,874.0 119.5,851.0 119.5,805.0 159.3,782.0" style="animation-duration:6.95s; animation-delay:-4.94s;"/>
+<polygon class="hex-cell" points="278.9,805.0 278.9,851.0 239.0,874.0 199.2,851.0 199.2,805.0 239.0,782.0" style="animation-duration:6.43s; animation-delay:-1.97s;"/>
+<polygon class="hex-cell" points="358.5,805.0 358.5,851.0 318.7,874.0 278.9,851.0 278.9,805.0 318.7,782.0" style="animation-duration:5.45s; animation-delay:-4.69s;"/>
+<polygon class="hex-cell hex-bright" points="438.2,805.0 438.2,851.0 398.4,874.0 358.5,851.0 358.5,805.0 398.4,782.0" style="animation-duration:4.79s; animation-delay:-4.52s;"/>
+<polygon class="hex-cell" points="517.9,805.0 517.9,851.0 478.0,874.0 438.2,851.0 438.2,805.0 478.0,782.0" style="animation-duration:4.26s; animation-delay:-0.20s;"/>
+<polygon class="hex-cell" points="597.6,805.0 597.6,851.0 557.7,874.0 517.9,851.0 517.9,805.0 557.7,782.0" style="animation-duration:5.30s; animation-delay:-5.88s;"/>
+<polygon class="hex-cell" points="677.2,805.0 677.2,851.0 637.4,874.0 597.6,851.0 597.6,805.0 637.4,782.0" style="animation-duration:7.95s; animation-delay:-1.59s;"/>
+<polygon class="hex-cell hex-bright" points="756.9,805.0 756.9,851.0 717.1,874.0 677.2,851.0 677.2,805.0 717.1,782.0" style="animation-duration:4.39s; animation-delay:-2.99s;"/>
+<polygon class="hex-cell" points="836.6,805.0 836.6,851.0 796.7,874.0 756.9,851.0 756.9,805.0 796.7,782.0" style="animation-duration:5.79s; animation-delay:-1.41s;"/>
+<polygon class="hex-cell" points="916.3,805.0 916.3,851.0 876.4,874.0 836.6,851.0 836.6,805.0 876.4,782.0" style="animation-duration:6.48s; animation-delay:-4.04s;"/>
+<polygon class="hex-cell" points="995.9,805.0 995.9,851.0 956.1,874.0 916.3,851.0 916.3,805.0 956.1,782.0" style="animation-duration:7.39s; animation-delay:-3.99s;"/>
+<polygon class="hex-cell" points="1075.6,805.0 1075.6,851.0 1035.8,874.0 995.9,851.0 995.9,805.0 1035.8,782.0" style="animation-duration:7.36s; animation-delay:-1.76s;"/>
+<polygon class="hex-cell" points="1155.3,805.0 1155.3,851.0 1115.4,874.0 1075.6,851.0 1075.6,805.0 1115.4,782.0" style="animation-duration:5.49s; animation-delay:-4.43s;"/>
+<polygon class="hex-cell" points="1235.0,805.0 1235.0,851.0 1195.1,874.0 1155.3,851.0 1155.3,805.0 1195.1,782.0" style="animation-duration:4.99s; animation-delay:-1.47s;"/>
+<polygon class="hex-cell" points="1314.6,805.0 1314.6,851.0 1274.8,874.0 1235.0,851.0 1235.0,805.0 1274.8,782.0" style="animation-duration:7.54s; animation-delay:-3.47s;"/>
+<polygon class="hex-cell" points="1394.3,805.0 1394.3,851.0 1354.5,874.0 1314.6,851.0 1314.6,805.0 1354.5,782.0" style="animation-duration:5.58s; animation-delay:-5.95s;"/>
+<polygon class="hex-cell" points="1474.0,805.0 1474.0,851.0 1434.1,874.0 1394.3,851.0 1394.3,805.0 1434.1,782.0" style="animation-duration:4.93s; animation-delay:-4.85s;"/>
+<polygon class="hex-cell" points="1553.6,805.0 1553.6,851.0 1513.8,874.0 1474.0,851.0 1474.0,805.0 1513.8,782.0" style="animation-duration:7.96s; animation-delay:-0.61s;"/>
+<polygon class="hex-cell" points="1633.3,805.0 1633.3,851.0 1593.5,874.0 1553.6,851.0 1553.6,805.0 1593.5,782.0" style="animation-duration:7.28s; animation-delay:-5.04s;"/>
+<polygon class="hex-cell" points="1713.0,805.0 1713.0,851.0 1673.2,874.0 1633.3,851.0 1633.3,805.0 1673.2,782.0" style="animation-duration:4.16s; animation-delay:-1.76s;"/>
+<polygon class="hex-cell" points="79.7,874.0 79.7,920.0 39.8,943.0 -0.0,920.0 0.0,874.0 39.8,851.0" style="animation-duration:4.76s; animation-delay:-5.84s;"/>
+<polygon class="hex-cell" points="159.3,874.0 159.3,920.0 119.5,943.0 79.7,920.0 79.7,874.0 119.5,851.0" style="animation-duration:7.72s; animation-delay:-2.23s;"/>
+<polygon class="hex-cell" points="239.0,874.0 239.0,920.0 199.2,943.0 159.3,920.0 159.3,874.0 199.2,851.0" style="animation-duration:5.80s; animation-delay:-1.56s;"/>
+<polygon class="hex-cell" points="318.7,874.0 318.7,920.0 278.9,943.0 239.0,920.0 239.0,874.0 278.9,851.0" style="animation-duration:7.78s; animation-delay:-0.63s;"/>
+<polygon class="hex-cell" points="398.4,874.0 398.4,920.0 358.5,943.0 318.7,920.0 318.7,874.0 358.5,851.0" style="animation-duration:6.48s; animation-delay:-1.31s;"/>
+<polygon class="hex-cell" points="478.0,874.0 478.0,920.0 438.2,943.0 398.4,920.0 398.4,874.0 438.2,851.0" style="animation-duration:4.57s; animation-delay:-1.22s;"/>
+<polygon class="hex-cell" points="557.7,874.0 557.7,920.0 517.9,943.0 478.0,920.0 478.0,874.0 517.9,851.0" style="animation-duration:6.40s; animation-delay:-3.91s;"/>
+<polygon class="hex-cell" points="637.4,874.0 637.4,920.0 597.6,943.0 557.7,920.0 557.7,874.0 597.6,851.0" style="animation-duration:4.05s; animation-delay:-1.96s;"/>
+<polygon class="hex-cell" points="717.1,874.0 717.1,920.0 677.2,943.0 637.4,920.0 637.4,874.0 677.2,851.0" style="animation-duration:4.74s; animation-delay:-1.87s;"/>
+<polygon class="hex-cell" points="796.7,874.0 796.7,920.0 756.9,943.0 717.1,920.0 717.1,874.0 756.9,851.0" style="animation-duration:7.18s; animation-delay:-3.29s;"/>
+<polygon class="hex-cell hex-bright" points="876.4,874.0 876.4,920.0 836.6,943.0 796.7,920.0 796.7,874.0 836.6,851.0" style="animation-duration:4.41s; animation-delay:-2.37s;"/>
+<polygon class="hex-cell" points="956.1,874.0 956.1,920.0 916.3,943.0 876.4,920.0 876.4,874.0 916.3,851.0" style="animation-duration:6.56s; animation-delay:-0.55s;"/>
+<polygon class="hex-cell" points="1035.8,874.0 1035.8,920.0 995.9,943.0 956.1,920.0 956.1,874.0 995.9,851.0" style="animation-duration:6.78s; animation-delay:-2.46s;"/>
+<polygon class="hex-cell" points="1115.4,874.0 1115.4,920.0 1075.6,943.0 1035.8,920.0 1035.8,874.0 1075.6,851.0" style="animation-duration:5.23s; animation-delay:-5.72s;"/>
+<polygon class="hex-cell" points="1195.1,874.0 1195.1,920.0 1155.3,943.0 1115.4,920.0 1115.4,874.0 1155.3,851.0" style="animation-duration:6.27s; animation-delay:-2.14s;"/>
+<polygon class="hex-cell" points="1274.8,874.0 1274.8,920.0 1235.0,943.0 1195.1,920.0 1195.1,874.0 1235.0,851.0" style="animation-duration:7.46s; animation-delay:-5.98s;"/>
+<polygon class="hex-cell" points="1354.5,874.0 1354.5,920.0 1314.6,943.0 1274.8,920.0 1274.8,874.0 1314.6,851.0" style="animation-duration:4.79s; animation-delay:-4.37s;"/>
+<polygon class="hex-cell" points="1434.1,874.0 1434.1,920.0 1394.3,943.0 1354.5,920.0 1354.5,874.0 1394.3,851.0" style="animation-duration:4.02s; animation-delay:-5.41s;"/>
+<polygon class="hex-cell" points="1513.8,874.0 1513.8,920.0 1474.0,943.0 1434.1,920.0 1434.1,874.0 1474.0,851.0" style="animation-duration:7.28s; animation-delay:-2.44s;"/>
+<polygon class="hex-cell" points="1593.5,874.0 1593.5,920.0 1553.6,943.0 1513.8,920.0 1513.8,874.0 1553.6,851.0" style="animation-duration:5.84s; animation-delay:-0.98s;"/>
+<polygon class="hex-cell hex-bright" points="1673.2,874.0 1673.2,920.0 1633.3,943.0 1593.5,920.0 1593.5,874.0 1633.3,851.0" style="animation-duration:6.21s; animation-delay:-3.84s;"/>
+<polygon class="hex-cell" points="1752.8,874.0 1752.8,920.0 1713.0,943.0 1673.2,920.0 1673.2,874.0 1713.0,851.0" style="animation-duration:4.36s; animation-delay:-3.73s;"/>
+<polygon class="hex-cell" points="39.8,943.0 39.8,989.0 0.0,1012.0 -39.8,989.0 -39.8,943.0 -0.0,920.0" style="animation-duration:6.02s; animation-delay:-0.88s;"/>
+<polygon class="hex-cell" points="119.5,943.0 119.5,989.0 79.7,1012.0 39.8,989.0 39.8,943.0 79.7,920.0" style="animation-duration:6.08s; animation-delay:-5.55s;"/>
+<polygon class="hex-cell" points="199.2,943.0 199.2,989.0 159.3,1012.0 119.5,989.0 119.5,943.0 159.3,920.0" style="animation-duration:5.96s; animation-delay:-4.83s;"/>
+<polygon class="hex-cell" points="278.9,943.0 278.9,989.0 239.0,1012.0 199.2,989.0 199.2,943.0 239.0,920.0" style="animation-duration:4.79s; animation-delay:-0.76s;"/>
+<polygon class="hex-cell" points="358.5,943.0 358.5,989.0 318.7,1012.0 278.9,989.0 278.9,943.0 318.7,920.0" style="animation-duration:7.90s; animation-delay:-2.90s;"/>
+<polygon class="hex-cell hex-bright" points="438.2,943.0 438.2,989.0 398.4,1012.0 358.5,989.0 358.5,943.0 398.4,920.0" style="animation-duration:7.70s; animation-delay:-2.33s;"/>
+<polygon class="hex-cell" points="517.9,943.0 517.9,989.0 478.0,1012.0 438.2,989.0 438.2,943.0 478.0,920.0" style="animation-duration:6.48s; animation-delay:-4.95s;"/>
+<polygon class="hex-cell" points="597.6,943.0 597.6,989.0 557.7,1012.0 517.9,989.0 517.9,943.0 557.7,920.0" style="animation-duration:7.14s; animation-delay:-1.33s;"/>
+<polygon class="hex-cell" points="677.2,943.0 677.2,989.0 637.4,1012.0 597.6,989.0 597.6,943.0 637.4,920.0" style="animation-duration:7.39s; animation-delay:-4.98s;"/>
+<polygon class="hex-cell" points="756.9,943.0 756.9,989.0 717.1,1012.0 677.2,989.0 677.2,943.0 717.1,920.0" style="animation-duration:4.87s; animation-delay:-2.40s;"/>
+<polygon class="hex-cell" points="836.6,943.0 836.6,989.0 796.7,1012.0 756.9,989.0 756.9,943.0 796.7,920.0" style="animation-duration:5.53s; animation-delay:-0.74s;"/>
+<polygon class="hex-cell" points="916.3,943.0 916.3,989.0 876.4,1012.0 836.6,989.0 836.6,943.0 876.4,920.0" style="animation-duration:6.90s; animation-delay:-5.38s;"/>
+<polygon class="hex-cell hex-bright" points="995.9,943.0 995.9,989.0 956.1,1012.0 916.3,989.0 916.3,943.0 956.1,920.0" style="animation-duration:6.25s; animation-delay:-4.54s;"/>
+<polygon class="hex-cell hex-bright" points="1075.6,943.0 1075.6,989.0 1035.8,1012.0 995.9,989.0 995.9,943.0 1035.8,920.0" style="animation-duration:7.35s; animation-delay:-0.71s;"/>
+<polygon class="hex-cell" points="1155.3,943.0 1155.3,989.0 1115.4,1012.0 1075.6,989.0 1075.6,943.0 1115.4,920.0" style="animation-duration:6.20s; animation-delay:-3.76s;"/>
+<polygon class="hex-cell" points="1235.0,943.0 1235.0,989.0 1195.1,1012.0 1155.3,989.0 1155.3,943.0 1195.1,920.0" style="animation-duration:5.68s; animation-delay:-3.50s;"/>
+<polygon class="hex-cell" points="1314.6,943.0 1314.6,989.0 1274.8,1012.0 1235.0,989.0 1235.0,943.0 1274.8,920.0" style="animation-duration:6.64s; animation-delay:-2.68s;"/>
+<polygon class="hex-cell" points="1394.3,943.0 1394.3,989.0 1354.5,1012.0 1314.6,989.0 1314.6,943.0 1354.5,920.0" style="animation-duration:4.09s; animation-delay:-3.71s;"/>
+<polygon class="hex-cell" points="1474.0,943.0 1474.0,989.0 1434.1,1012.0 1394.3,989.0 1394.3,943.0 1434.1,920.0" style="animation-duration:4.94s; animation-delay:-4.58s;"/>
+<polygon class="hex-cell" points="1553.6,943.0 1553.6,989.0 1513.8,1012.0 1474.0,989.0 1474.0,943.0 1513.8,920.0" style="animation-duration:5.83s; animation-delay:-1.08s;"/>
+<polygon class="hex-cell" points="1633.3,943.0 1633.3,989.0 1593.5,1012.0 1553.6,989.0 1553.6,943.0 1593.5,920.0" style="animation-duration:4.43s; animation-delay:-0.77s;"/>
+<polygon class="hex-cell" points="1713.0,943.0 1713.0,989.0 1673.2,1012.0 1633.3,989.0 1633.3,943.0 1673.2,920.0" style="animation-duration:4.37s; animation-delay:-2.65s;"/>
+<polygon class="hex-cell" points="79.7,1012.0 79.7,1058.0 39.8,1081.0 -0.0,1058.0 0.0,1012.0 39.8,989.0" style="animation-duration:4.16s; animation-delay:-3.82s;"/>
+<polygon class="hex-cell hex-bright" points="159.3,1012.0 159.3,1058.0 119.5,1081.0 79.7,1058.0 79.7,1012.0 119.5,989.0" style="animation-duration:6.93s; animation-delay:-4.67s;"/>
+<polygon class="hex-cell" points="239.0,1012.0 239.0,1058.0 199.2,1081.0 159.3,1058.0 159.3,1012.0 199.2,989.0" style="animation-duration:4.22s; animation-delay:-3.02s;"/>
+<polygon class="hex-cell" points="318.7,1012.0 318.7,1058.0 278.9,1081.0 239.0,1058.0 239.0,1012.0 278.9,989.0" style="animation-duration:7.80s; animation-delay:-0.82s;"/>
+<polygon class="hex-cell" points="398.4,1012.0 398.4,1058.0 358.5,1081.0 318.7,1058.0 318.7,1012.0 358.5,989.0" style="animation-duration:7.98s; animation-delay:-4.39s;"/>
+<polygon class="hex-cell" points="478.0,1012.0 478.0,1058.0 438.2,1081.0 398.4,1058.0 398.4,1012.0 438.2,989.0" style="animation-duration:4.77s; animation-delay:-5.89s;"/>
+<polygon class="hex-cell" points="557.7,1012.0 557.7,1058.0 517.9,1081.0 478.0,1058.0 478.0,1012.0 517.9,989.0" style="animation-duration:7.83s; animation-delay:-5.50s;"/>
+<polygon class="hex-cell" points="637.4,1012.0 637.4,1058.0 597.6,1081.0 557.7,1058.0 557.7,1012.0 597.6,989.0" style="animation-duration:7.15s; animation-delay:-5.58s;"/>
+<polygon class="hex-cell hex-bright" points="717.1,1012.0 717.1,1058.0 677.2,1081.0 637.4,1058.0 637.4,1012.0 677.2,989.0" style="animation-duration:5.40s; animation-delay:-4.54s;"/>
+<polygon class="hex-cell" points="796.7,1012.0 796.7,1058.0 756.9,1081.0 717.1,1058.0 717.1,1012.0 756.9,989.0" style="animation-duration:7.59s; animation-delay:-1.65s;"/>
+<polygon class="hex-cell" points="876.4,1012.0 876.4,1058.0 836.6,1081.0 796.7,1058.0 796.7,1012.0 836.6,989.0" style="animation-duration:4.57s; animation-delay:-3.01s;"/>
+<polygon class="hex-cell" points="956.1,1012.0 956.1,1058.0 916.3,1081.0 876.4,1058.0 876.4,1012.0 916.3,989.0" style="animation-duration:4.83s; animation-delay:-1.58s;"/>
+<polygon class="hex-cell" points="1035.8,1012.0 1035.8,1058.0 995.9,1081.0 956.1,1058.0 956.1,1012.0 995.9,989.0" style="animation-duration:5.28s; animation-delay:-0.22s;"/>
+<polygon class="hex-cell" points="1115.4,1012.0 1115.4,1058.0 1075.6,1081.0 1035.8,1058.0 1035.8,1012.0 1075.6,989.0" style="animation-duration:4.64s; animation-delay:-5.62s;"/>
+<polygon class="hex-cell" points="1195.1,1012.0 1195.1,1058.0 1155.3,1081.0 1115.4,1058.0 1115.4,1012.0 1155.3,989.0" style="animation-duration:7.58s; animation-delay:-1.01s;"/>
+<polygon class="hex-cell" points="1274.8,1012.0 1274.8,1058.0 1235.0,1081.0 1195.1,1058.0 1195.1,1012.0 1235.0,989.0" style="animation-duration:4.46s; animation-delay:-3.18s;"/>
+<polygon class="hex-cell" points="1354.5,1012.0 1354.5,1058.0 1314.6,1081.0 1274.8,1058.0 1274.8,1012.0 1314.6,989.0" style="animation-duration:5.44s; animation-delay:-5.24s;"/>
+<polygon class="hex-cell" points="1434.1,1012.0 1434.1,1058.0 1394.3,1081.0 1354.5,1058.0 1354.5,1012.0 1394.3,989.0" style="animation-duration:6.32s; animation-delay:-5.30s;"/>
+<polygon class="hex-cell" points="1513.8,1012.0 1513.8,1058.0 1474.0,1081.0 1434.1,1058.0 1434.1,1012.0 1474.0,989.0" style="animation-duration:7.97s; animation-delay:-3.78s;"/>
+<polygon class="hex-cell" points="1593.5,1012.0 1593.5,1058.0 1553.6,1081.0 1513.8,1058.0 1513.8,1012.0 1553.6,989.0" style="animation-duration:7.19s; animation-delay:-1.59s;"/>
+<polygon class="hex-cell" points="1673.2,1012.0 1673.2,1058.0 1633.3,1081.0 1593.5,1058.0 1593.5,1012.0 1633.3,989.0" style="animation-duration:6.31s; animation-delay:-2.16s;"/>
+<polygon class="hex-cell" points="1752.8,1012.0 1752.8,1058.0 1713.0,1081.0 1673.2,1058.0 1673.2,1012.0 1713.0,989.0" style="animation-duration:5.77s; animation-delay:-1.06s;"/>
+</svg>
+</div>
 
 <!-- FLOATING PILL NAV -->
 <div class="pill-nav-wrap">
@@ -1490,7 +1928,7 @@ function renderGalleryCategory(containerId) {
   container.innerHTML = `
     <div class="gallery-grid" id="gc-current"></div>
     <div class="book-look-row">
-      <button class="btn-book-look" onclick="switchTab('viewBook')">Book This Look →</button>
+      <button class="btn-book-look" onclick="switchTab('viewBook')">Book Appointment →</button>
     </div>`;
   const gc = document.getElementById('gc-current');
   items.forEach(item => { gc.innerHTML += `<div><img src="${item.url}" alt="${currentGalleryCategory}" loading="lazy"></div>`; });
