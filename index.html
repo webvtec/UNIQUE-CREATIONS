@@ -1,0 +1,1837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Unique Creationz – Book Your Appointment</title>
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="description" content="Unique Creationz – Beauty, cosmetic & personal care in Ocho Rios, Jamaica. Lash extensions, waxing, Gel X, Polygel, BIAB, braids, kids hair, wig installation & beauty supplies. Book your appointment today.">
+<meta name="keywords" content="Unique Creationz, Unique Creationz Jamaica, beauty lounge Ocho Rios, lash extensions Ocho Rios, waxing Ocho Rios, Gel X Ocho Rios, Polygel, BIAB nails Jamaica, braids Ocho Rios, kids hair Jamaica, wig installation Jamaica, beauty supplies Ocho Rios">
+<meta name="author" content="Unique Creationz">
+<link rel="canonical" href="https://atmbeautystyles.com/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Unique Creationz – Book Your Appointment">
+<meta property="og:description" content="Beauty, cosmetic & personal care in Ocho Rios, Jamaica. Book your appointment online now.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="referrer" content="no-referrer-when-downgrade">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BeautySalon",
+  "name": "Unique Creationz",
+  "url": "https://atmbeautystyles.com",
+  "description": "Beauty, cosmetic & personal care lounge in Ocho Rios, Jamaica offering lash extensions, waxing, Gel X, Polygel, BIAB, braids, kids hair, wig installation and beauty supplies.",
+  "priceRange": "$$",
+  "address": { "@type": "PostalAddress", "streetAddress": "Shop #4 Cole's Plaza", "addressLocality": "Ocho Rios", "addressRegion": "Saint Ann", "addressCountry": "JM" },
+  "sameAs": ["https://www.instagram.com/unique_creationz_beauty.lounge"]
+}
+</script>
+
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Lato:wght@300;400;700;900&family=Tenor+Sans&display=swap" rel="stylesheet"/>
+
+<style>
+:root {
+  --cream:       #0B0F0F;
+  --cream2:      #141C1B;
+  --cream3:      #1A2422;
+  --parchment:   #24322F;
+  --burgundy:    #17BFAE;
+  --burgundy2:   #2FE0CB;
+  --burgundy3:   #0A5F57;
+  --rose:        #D4AF37;
+  --rose2:       #E8C766;
+  --blush:       #241D0E;
+  --gold:        #D9A62E;
+  --gold2:       #EFC65A;
+  --goldfaint:   #2A2110;
+  --ink:         #F3F7F6;
+  --ink2:        #C9D6D3;
+  --muted:       #9FB7B3;
+  --mutedlight:  #6E8481;
+  --line:        rgba(23,191,174,0.18);
+  --linefaint:   rgba(23,191,174,0.09);
+  --shadow:      rgba(0,0,0,0.45);
+  --glassline:   rgba(255,255,255,0.08);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Lato', sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  min-height: 100vh;
+  overflow-x: hidden;
+  background-image:
+    radial-gradient(ellipse at 10% 0%, rgba(212,175,55,0.08) 0, transparent 50%),
+    radial-gradient(ellipse at 90% 100%, rgba(23,191,174,0.06) 0, transparent 50%);
+  background-attachment: fixed;
+}
+
+/* ==============================
+   FLOATING PILL NAVIGATION
+   ============================== */
+.pill-nav-wrap {
+  position: fixed;
+  top: 18px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 900;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  width: calc(100% - 32px);
+  max-width: 480px;
+}
+
+.pill-nav {
+  display: flex;
+  align-items: center;
+  background: rgba(11,15,15,0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--parchment);
+  border-radius: 50px;
+  padding: 5px 6px;
+  gap: 2px;
+  box-shadow: 0 4px 24px rgba(23,191,174,0.12), 0 1px 0 rgba(255,255,255,0.8) inset;
+  width: 100%;
+}
+
+.pill-brand {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: var(--burgundy);
+  padding: 0 10px 0 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  border-right: 1px solid var(--line);
+  margin-right: 4px;
+  line-height: 30px;
+}
+
+.pill-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 8px 4px;
+  border-radius: 40px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: 'Lato', sans-serif;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: all 0.3s cubic-bezier(0.34,1.2,0.64,1);
+  -webkit-tap-highlight-color: transparent;
+  white-space: nowrap;
+}
+
+.pill-tab .t-icon { font-size: 14px; line-height: 1; }
+.pill-tab .t-label { font-size: 9px; }
+
+.pill-tab.active {
+  background: var(--burgundy);
+  color: #fff;
+  box-shadow: 0 2px 12px rgba(23,191,174,0.35);
+}
+
+.pill-tab:not(.active):hover {
+  background: var(--blush);
+  color: var(--burgundy);
+}
+
+/* Auth row below pill */
+.pill-auth-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 4px 0;
+}
+
+.auth-chip {
+  font-family: 'Lato', sans-serif;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  border-radius: 20px;
+  background: var(--burgundy);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s;
+  box-shadow: 0 2px 8px rgba(23,191,174,0.25);
+}
+.auth-chip:hover { background: var(--burgundy2); transform: translateY(-1px); }
+
+.loc-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'Lato', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.7);
+  border: 1px solid var(--parchment);
+  transition: all 0.25s;
+}
+.loc-chip:hover { color: var(--burgundy); background: var(--blush); }
+
+/* ==============================
+   VIEWS
+   ============================== */
+.view {
+  display: none;
+  padding-top: 100px;
+  min-height: 100vh;
+  padding-bottom: 40px;
+}
+.view.active { display: block; animation: pageIn 0.4s ease-out; }
+
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ==============================
+   STYLES / GALLERY VIEW
+   ============================== */
+.hero-strip {
+  background: var(--burgundy);
+  margin: 0 16px 24px;
+  border-radius: 20px;
+  padding: 32px 24px 28px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-strip::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+}
+.hero-strip::after {
+  content: '';
+  position: absolute;
+  bottom: -20px; left: -20px;
+  width: 100px; height: 100px;
+  border-radius: 50%;
+  background: rgba(212,175,55,0.15);
+}
+
+.hero-eyebrow {
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: rgba(232,199,102,0.8);
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.1;
+  margin-bottom: 8px;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-title em {
+  font-style: italic;
+  color: var(--rose2);
+}
+
+.hero-sub {
+  font-size: 13px;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 22px;
+  line-height: 1.7;
+  position: relative;
+  z-index: 1;
+}
+
+/* Buttons: left-aligned column group */
+.hero-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+.btn-hero {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 22px;
+  border-radius: 10px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 900;
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  transition: all 0.25s;
+}
+
+.btn-hero-primary {
+  background: #fff;
+  color: var(--burgundy);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+.btn-hero-primary:hover { background: var(--cream); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+
+.btn-hero-ghost {
+  background: rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.8);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+.btn-hero-ghost:hover { background: rgba(255,255,255,0.18); color: #fff; }
+
+/* Gallery */
+.cat-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 0 20px 10px;
+  margin-top: 22px;
+}
+
+.cat-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-style: italic;
+  color: var(--burgundy);
+}
+
+.cat-divider {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--line), transparent);
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  padding: 0 16px 4px;
+}
+
+.gallery-grid img {
+  width: 100%;
+  height: 195px;
+  object-fit: cover;
+  border-radius: 14px;
+  transition: transform 0.35s, box-shadow 0.35s;
+  box-shadow: 0 2px 12px rgba(23,191,174,0.08);
+}
+.gallery-grid img:hover { transform: scale(1.03); box-shadow: 0 8px 28px rgba(23,191,174,0.18); }
+
+/* Style category filter buttons */
+.style-cat-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 16px 20px;
+  flex-wrap: wrap;
+}
+
+.style-cat-btn {
+  flex: 1 1 0;
+  max-width: 160px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--cream2);
+  color: var(--burgundy);
+  font-family: 'Lato', sans-serif;
+  font-weight: 900;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(23,191,174,0.06);
+  transition: all 0.25s;
+}
+.style-cat-btn:hover { background: var(--blush); border-color: var(--rose); }
+.style-cat-btn.active {
+  background: var(--burgundy);
+  color: #fff;
+  border-color: var(--burgundy);
+  box-shadow: 0 4px 14px rgba(23,191,174,0.3);
+}
+
+/* Desktop: wider viewport gets a centered, 3-across gallery instead of full-bleed */
+@media (min-width: 860px) {
+  .hero-strip, .style-cat-tabs, .cat-header, .gallery-grid, .book-look-row, .socials-strip {
+    max-width: 920px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .gallery-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .gallery-grid img { height: 230px; }
+  .style-cat-btn { flex: 0 1 180px; }
+}
+
+/* Book-look floating button — RIGHT aligned */
+.book-look-row {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 16px 20px;
+}
+
+.btn-book-look {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--burgundy);
+  color: #fff;
+  font-family: 'Lato', sans-serif;
+  font-weight: 900;
+  font-size: 9.5px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 11px 20px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(23,191,174,0.25);
+  transition: all 0.25s;
+}
+.btn-book-look:hover { background: var(--burgundy2); transform: translateY(-2px); }
+
+/* Socials footer strip */
+.socials-strip {
+  margin: 8px 16px 0;
+  padding: 16px 0;
+  border-top: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.social-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 8px 14px;
+  border-radius: 20px;
+  background: rgba(23,191,174,0.05);
+  border: 1px solid var(--line);
+  transition: all 0.25s;
+}
+.social-pill:hover { background: var(--blush); color: var(--burgundy); border-color: var(--rose); }
+
+.footer-note {
+  font-size: 10px;
+  color: var(--mutedlight);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.footer-note a { color: var(--gold); text-decoration: none; }
+
+/* ==============================
+   BOOKING VIEW
+   ============================== */
+.view-header {
+  padding: 8px 20px 20px;
+}
+
+.view-label {
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--rose);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.view-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+/* Policy pills — horizontal scroll row */
+.policy-scroll {
+  display: flex;
+  gap: 8px;
+  padding: 0 16px 20px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.policy-scroll::-webkit-scrollbar { display: none; }
+
+.policy-pill {
+  flex-shrink: 0;
+  background: var(--cream2);
+  border: 1px solid var(--parchment);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 11.5px;
+  line-height: 1.6;
+  color: var(--muted);
+  box-shadow: 0 2px 8px var(--shadow);
+  min-width: 150px;
+  max-width: 180px;
+}
+.policy-pill strong { color: var(--burgundy); display: block; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 4px; }
+
+/* Form layout — two-column on wide, stacked on mobile */
+.booking-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 0 16px 24px;
+}
+
+.form-card {
+  background: var(--cream2);
+  border-radius: 18px;
+  padding: 22px 20px;
+  box-shadow: 0 4px 24px var(--shadow);
+  border: 1px solid var(--parchment);
+}
+
+.form-card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--burgundy);
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--linefaint);
+}
+
+.field-group { margin-bottom: 14px; }
+
+.field-label {
+  display: block;
+  font-size: 9.5px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--burgundy);
+  margin-bottom: 7px;
+}
+
+.field-input, .field-select {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--cream);
+  border: 1px solid var(--parchment);
+  border-radius: 10px;
+  color: var(--ink);
+  font-family: 'Lato', sans-serif;
+  font-size: 14px;
+  transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.field-input:focus, .field-select:focus {
+  outline: none;
+  border-color: var(--burgundy);
+  box-shadow: 0 0 0 3px rgba(23,191,174,0.1);
+  background: var(--cream3);
+}
+.field-select option { background: var(--cream2); color: var(--ink); }
+
+.submit-btn {
+  width: 100%;
+  padding: 15px;
+  background: var(--burgundy);
+  color: #fff;
+  font-family: 'Lato', sans-serif;
+  font-weight: 900;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(23,191,174,0.3);
+  transition: all 0.3s;
+  margin-top: 6px;
+}
+.submit-btn:hover { background: var(--burgundy2); transform: translateY(-2px); box-shadow: 0 10px 28px rgba(23,191,174,0.35); }
+
+/* Quick action buttons — stacked LEFT side card */
+.quick-actions-card {
+  background: var(--burgundy);
+  border-radius: 18px;
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.qa-btn {
+  flex: 1;
+  min-width: 120px;
+  padding: 13px 14px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: #fff;
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  font-size: 9.5px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.25s;
+}
+.qa-btn:hover { background: rgba(255,255,255,0.22); transform: translateY(-1px); }
+.qa-btn.qa-admin { background: transparent; color: rgba(255,255,255,0.45); border-color: rgba(255,255,255,0.1); }
+.qa-btn.qa-admin:hover { color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.07); }
+
+#selectionSummary {
+  display: none;
+  margin-top: 12px;
+  padding: 14px;
+  background: var(--goldfaint);
+  border: 1px solid rgba(217,166,46,0.25);
+  border-radius: 10px;
+}
+#selectionSummaryTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  color: var(--gold);
+  margin-bottom: 5px;
+  font-style: italic;
+}
+#serviceIncludesCard {
+  display: none;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--parchment);
+  background: var(--cream2);
+}
+
+/* ==============================
+   REVIEWS VIEW
+   ============================== */
+.reviews-layout { padding: 0 16px 24px; }
+
+.review-form-card {
+  background: var(--cream2);
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 4px 20px var(--shadow);
+  border: 1px solid var(--parchment);
+  margin-bottom: 20px;
+}
+
+.review-form-card textarea {
+  width: 100%;
+  height: 90px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--parchment);
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'Lato', sans-serif;
+  font-size: 14px;
+  resize: vertical;
+  margin-bottom: 14px;
+}
+.review-form-card textarea:focus {
+  outline: none;
+  border-color: var(--burgundy);
+  box-shadow: 0 0 0 3px rgba(23,191,174,0.1);
+  background: var(--cream3);
+}
+
+#starRating {
+  font-size: 28px;
+  color: var(--parchment);
+  letter-spacing: 4px;
+  cursor: pointer;
+  margin-bottom: 14px;
+  text-align: center;
+}
+
+.review-card {
+  background: var(--cream2);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 10px;
+  border: 1px solid var(--parchment);
+  border-left: 3px solid var(--burgundy);
+  box-shadow: 0 2px 10px var(--shadow);
+}
+
+/* ==============================
+   PRICE LIST VIEW
+   ============================== */
+.price-layout { padding: 0 16px 24px; }
+
+.price-block {
+  background: var(--cream2);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 12px;
+  border: 1px solid var(--parchment);
+  box-shadow: 0 2px 12px var(--shadow);
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.price-block + .price-block { margin-top: 12px; }
+
+.price-block-header {
+  background: var(--burgundy);
+  padding: 14px 18px;
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 17px;
+  color: #fff;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.price-block-header.gold-head {
+  background: linear-gradient(135deg, var(--gold), var(--gold2));
+}
+
+.price-section-label {
+  padding: 10px 18px 4px;
+  font-size: 9px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  color: var(--rose);
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 18px;
+  border-bottom: 1px solid var(--linefaint);
+  font-size: 13px;
+}
+.price-row span:first-child { color: var(--ink2); }
+.price-row span:last-child { color: var(--burgundy); font-weight: 700; white-space: nowrap; margin-left: 10px; }
+
+.price-cta-row {
+  max-width: 520px;
+  margin: 16px auto 0;
+  display: flex;
+  justify-content: center;
+}
+
+/* ==============================
+   MODALS
+   ============================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9000;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 16px;
+}
+.modal-overlay.open { display: flex; }
+
+.modal-box {
+  background: var(--cream2);
+  border-radius: 22px;
+  width: 100%;
+  max-width: 480px;
+  max-height: 85vh;
+  overflow-y: auto;
+  position: relative;
+  padding: 26px;
+  border-top: 4px solid var(--burgundy);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.35);
+  border: 1px solid var(--parchment);
+  border-top: 4px solid var(--burgundy);
+}
+
+.modal-close {
+  position: sticky;
+  top: 0; float: right;
+  background: none; border: none;
+  color: var(--mutedlight);
+  font-size: 26px;
+  cursor: pointer;
+  line-height: 1;
+  z-index: 10;
+  padding: 0 0 10px 10px;
+}
+.modal-close:hover { color: var(--burgundy); }
+
+.modal-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-style: italic;
+  color: var(--burgundy);
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+/* ==============================
+   BOOKING CARDS (My Bookings)
+   ============================== */
+.booking-card {
+  background: var(--cream2);
+  border: 1px solid var(--parchment);
+  border-left: 3px solid var(--gold);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+.booking-card.cancelled { border-left-color: #c0392b; background: rgba(192,57,43,0.03); }
+.booking-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 16px;
+  color: var(--burgundy);
+  margin-bottom: 8px;
+}
+.booking-card p { font-size: 13px; margin: 3px 0; color: var(--ink2); }
+
+.cancel-booking-btn {
+  margin-top: 10px; width: 100%;
+  padding: 10px;
+  background: rgba(192,57,43,0.07);
+  color: #c0392b;
+  border: 1px solid rgba(192,57,43,0.25);
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: all 0.25s;
+}
+.cancel-booking-btn:hover { background: rgba(192,57,43,0.12); }
+
+/* ==============================
+   SERVICE CARD ITEMS
+   ============================== */
+.cut-item, .addon-item {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--linefaint);
+  display: flex; justify-content: space-between; align-items: center;
+  cursor: pointer; border-radius: 8px;
+  transition: background 0.2s;
+  user-select: none; -webkit-tap-highlight-color: transparent;
+}
+.cut-item:hover, .addon-item:hover { background: var(--cream2); }
+.cut-item.selected { background: rgba(23,191,174,0.07); border-left: 3px solid var(--burgundy); }
+.addon-item.selected { background: var(--goldfaint); border-left: 3px solid var(--gold); }
+.item-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.item-label { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink); }
+.item-price { font-size: 12px; color: var(--burgundy); font-weight: 700; white-space: nowrap; margin-left: 8px; }
+.item-check { font-size: 14px; margin-left: 6px; color: var(--burgundy); display: none; }
+.item-check.show { display: inline; }
+.card-section-title { margin: 10px 0 4px; color: var(--burgundy); font-weight: 900; font-size: 9px; text-transform: uppercase; letter-spacing: 2px; padding: 0 4px; }
+.tap-hint { font-size: 11px; color: var(--mutedlight); text-align: center; padding: 6px 0 4px; font-style: italic; }
+
+/* ==============================
+   SCROLLBAR & UTILITY
+   ============================== */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--cream); }
+::-webkit-scrollbar-thumb { background: rgba(23,191,174,0.2); border-radius: 4px; }
+
+input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.3); }
+
+.tag {
+  display: inline-block; padding: 3px 10px; border-radius: 20px;
+  font-size: 9.5px; font-weight: 900; letter-spacing: 1px; text-transform: uppercase;
+}
+.tag-active { background: rgba(23,191,174,0.1); color: var(--burgundy); }
+.tag-cancelled { background: rgba(192,57,43,0.1); color: #c0392b; }
+
+#reviewPrompt {
+  display: none;
+  background: var(--goldfaint);
+  border: 1px solid rgba(217,166,46,0.3);
+  border-radius: 12px;
+  padding: 14px;
+  text-align: center;
+  color: var(--gold);
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+</style>
+</head>
+<body>
+
+<!-- FLOATING PILL NAV -->
+<div class="pill-nav-wrap">
+  <nav class="pill-nav">
+    <button class="pill-tab active" id="tab-viewStyles" onclick="switchTab('viewStyles')">
+      <span class="t-icon">✦</span>
+      <span class="t-label">Styles</span>
+    </button>
+    <button class="pill-tab" id="tab-viewBook" onclick="switchTab('viewBook')">
+      <span class="t-icon">📅</span>
+      <span class="t-label">Book</span>
+    </button>
+    <button class="pill-tab" id="tab-viewReviews" onclick="switchTab('viewReviews')">
+      <span class="t-icon">★</span>
+      <span class="t-label">Reviews</span>
+    </button>
+    <button class="pill-tab" id="tab-viewPrices" onclick="switchTab('viewPrices')">
+      <span class="t-icon">◈</span>
+      <span class="t-label">Prices</span>
+    </button>
+  </nav>
+  <div class="pill-auth-row">
+<button class="auth-chip" id="authTopBtn" onclick="handleAuthButtonClick()">Log In</button>
+  </div>
+</div>
+
+<!-- ===== STYLES VIEW ===== -->
+<div class="view active" id="viewStyles">
+  <div class="hero-strip">
+    <p class="hero-eyebrow">Ocho Rios, Jamaica · Unique Creationz</p>
+    <p style="font-family:'Playfair Display',serif; font-size:22px; font-weight:900; letter-spacing:3px; color:#fff; margin-bottom:12px; text-transform:uppercase;">Unique Creationz</p>
+    <h1 class="hero-title">Feel <em>Good</em><br>Look Even Better</h1>
+    <p class="hero-sub">Lashes · Waxing · Gel X, Polygel &amp; BIAB · Braids · Kids Hair · Wigs<br>Mon – Sat, 8 AM – 5 PM</p>
+    <div class="hero-actions">
+<a class="btn-hero btn-hero-ghost" href="https://www.instagram.com/unique_creationz_beauty.lounge" target="_blank" style="display:inline-flex;align-items:center;justify-content:center;padding:12px 16px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+    </div>
+  </div>
+
+  <div class="style-cat-tabs">
+    <button class="style-cat-btn active" data-cat="Hairdressing" onclick="selectGalleryCategory('Hairdressing')">Hairdressing</button>
+    <button class="style-cat-btn" data-cat="Lashes" onclick="selectGalleryCategory('Lashes')">Lashes</button>
+    <button class="style-cat-btn" data-cat="Nails" onclick="selectGalleryCategory('Nails')">Nails</button>
+  </div>
+
+  <div id="galleryDisplay"></div>
+
+  <div class="socials-strip">
+    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+      <a class="social-pill" href="https://www.instagram.com/unique_creationz_beauty.lounge" target="_blank">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      </a>
+    </div>
+    <span class="footer-note">Site by <a href="https://www.webvtec.com" target="_blank">WEBVTEC</a></span>
+  </div>
+</div>
+
+<!-- ===== BOOK VIEW ===== -->
+<div class="view" id="viewBook">
+  <div class="view-header">
+    <p class="view-label">Reserve Your Visit</p>
+    <h2 class="view-title">Book an Appointment</h2>
+  </div>
+
+  <!-- Horizontally scrollable policy row -->
+  <div class="policy-scroll">
+    <div class="policy-pill">
+      <strong>Hours</strong>
+      Mon – Sat<br>8:00 AM – 5:00 PM
+    </div>
+    <div class="policy-pill">
+      <strong>Late Fee</strong>
+      After 5 PM:<br>+$2,500 applies
+    </div>
+    <div class="policy-pill">
+      <strong>Lateness</strong>
+      15 min late = CANCELLED
+    </div>
+    <div class="policy-pill">
+      <strong>Deposit</strong>
+      $2,000 required to confirm
+    </div>
+  </div>
+
+  <div class="booking-layout">
+    <!-- Main booking form card -->
+    <div class="form-card">
+      <div class="form-card-title">Your Details</div>
+      <form onsubmit="submitBooking(event)">
+        <div class="field-group">
+          <label class="field-label" for="name">Full Name</label>
+          <input class="field-input" id="name" required type="text" placeholder="Your full name"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="phone">Phone Number</label>
+          <input class="field-input" id="phone" type="tel" inputmode="numeric" maxlength="14" placeholder="(876) 123-4567" required/>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="date">Preferred Date</label>
+          <input class="field-input" id="date" min="" onchange="loadAvailableSlots()" required type="date"/>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="selectedTime">Available Time</label>
+          <select class="field-select" id="selectedTime" required>
+            <option value="">Complete form to see slots</option>
+          </select>
+        </div>
+        <!-- Hair Service (direct — no category step) -->
+        <div id="adultServiceWrap" class="field-group">
+          <label class="field-label" for="adultService">Hair Service</label>
+          <select class="field-select" id="adultService" onchange="onServiceChange();">
+            <option value="NONE">— Choose Your Service —</option>
+            <optgroup label="Braids">
+              <option value="hair-Knotless Box Braids">Knotless Box Braids — from $8,000</option>
+              <option value="hair-Boho Knotless Braids">Boho Knotless Braids — from $9,000</option>
+              <option value="hair-Goddess Knotless Braids">Goddess Knotless Braids — from $9,500</option>
+              <option value="hair-Tribal Braids">Tribal Braids — from $8,000</option>
+              <option value="hair-Fulani Braids">Fulani Braids — from $8,500</option>
+              <option value="hair-Lemonade Braids">Lemonade Braids — from $9,500</option>
+              <option value="hair-Box Braids">Box Braids — from $7,500</option>
+              <option value="hair-Jumbo Braids">Jumbo Braids — from $8,000</option>
+            </optgroup>
+            <optgroup label="Twists">
+              <option value="hair-Island Twist">Island Twist — from $10,000</option>
+              <option value="hair-Passion Twists">Passion Twists — from $8,500</option>
+              <option value="hair-Mini Twists">Mini Twists — from $10,000</option>
+            </optgroup>
+            <optgroup label="Locs">
+              <option value="hair-Soft Locs">Soft Locs — from $10,000</option>
+              <option value="hair-Butterfly Locs">Butterfly Locs — from $11,000</option>
+              <option value="hair-Faux Locs">Faux Locs — from $9,000</option>
+            </optgroup>
+            <optgroup label="Cornrows">
+              <option value="hair-Straight Back Cornrows">Straight Back Cornrows — from $5,000</option>
+              <option value="hair-Design Cornrows">Design Cornrows — from $5,000</option>
+              <option value="hair-Zig-Zag Cornrows">Zig-Zag Cornrows — from $5,000</option>
+            </optgroup>
+            <optgroup label="Weaves">
+              <option value="hair-Natural Sew-In">Natural Sew-In — from $8,000</option>
+              <option value="hair-Closure Sew-In">Closure Sew-In — from $10,000</option>
+              <option value="hair-Frontal Sew-In">Frontal Sew-In — from $12,000</option>
+            </optgroup>
+            <optgroup label="Quick Weave">
+              <option value="hair-Basic Quick Weave">Basic Quick Weave — from $5,000</option>
+              <option value="hair-Styled Quick Weave">Styled Quick Weave — from $6,000</option>
+              <option value="hair-Closure Quick Weave">Closure Quick Weave — from $7,000</option>
+            </optgroup>
+            <optgroup label="Ponytails">
+              <option value="hair-Sleek Ponytail">Sleek Ponytail — from $4,500</option>
+              <option value="hair-Braided Ponytail">Braided Ponytail — from $5,000</option>
+              <option value="hair-Half-Up Half-Down Ponytail">Half-Up Half-Down Ponytail — from $7,000</option>
+            </optgroup>
+          </select>
+        </div>
+        <input type="hidden" id="haircutType" value="NONE"/>
+        <div id="serviceIncludesCard"></div>
+        <div id="selectionSummary">
+          <div id="selectionSummaryTitle">✦ Your Selection</div>
+          <div id="selectionSummaryText"></div>
+        </div>
+        <p id="estimateTimeMessage" style="display:none; font-size:12px; color:var(--muted); margin-top:8px;"></p>
+        <button type="submit" class="submit-btn">Confirm Booking →</button>
+      </form>
+      <p id="bookingMessage" style="text-align:center; font-weight:700; color:var(--burgundy); margin-top:14px; font-size:14px;"></p>
+    </div>
+
+    <!-- Quick actions — separate card below form -->
+    <div class="quick-actions-card">
+      <button class="qa-btn" onclick="showUserBookings()">
+        📋 My Bookings
+      </button>
+      <button class="qa-btn" onclick="showPaymentInfo()">
+        💳 Payment Info
+      </button>
+      <button class="qa-btn qa-admin" onclick="login()">
+        Admin ↗
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== REVIEWS VIEW ===== -->
+<div class="view" id="viewReviews">
+  <div class="view-header">
+    <p class="view-label">Client Feedback</p>
+    <h2 class="view-title">Reviews</h2>
+  </div>
+  <div class="reviews-layout">
+    <div id="reviewPrompt">How was your experience? Leave us a review! ✦</div>
+    <div class="review-form-card">
+      <div class="form-card-title">Write a Review</div>
+      <form id="reviewForm">
+        <div class="field-group">
+          <label class="field-label">Your Name</label>
+          <input id="reviewName" placeholder="Your name" required class="field-input" type="text"/>
+        </div>
+        <textarea id="reviewComment" placeholder="Share your experience..." required></textarea>
+        <div id="starRating">
+          <span data-value="1">★</span><span data-value="2">★</span><span data-value="3">★</span><span data-value="4">★</span><span data-value="5">★</span>
+        </div>
+        <button type="submit" class="submit-btn">Submit Review →</button>
+      </form>
+      <p id="reviewSubmitMsg" style="text-align:center; color:var(--burgundy); margin-top:10px; font-weight:700;"></p>
+    </div>
+    <div id="reviewsContainer"></div>
+  </div>
+</div>
+
+<!-- ===== PRICES VIEW ===== -->
+<div class="view" id="viewPrices">
+  <div class="view-header">
+    <p class="view-label">Transparent Pricing</p>
+    <h2 class="view-title">Price List</h2>
+  </div>
+
+  <div style="padding:0 16px 14px;">
+    <div style="background:var(--cream2); border-radius:14px; padding:14px 16px; border:1px solid var(--parchment); border-left:3px solid var(--gold); font-size:12.5px; color:var(--muted); line-height:1.7; max-width:520px; margin:0 auto;">
+      <strong style="color:var(--burgundy);">Mon – Sat:</strong> 8:00 AM – 5:00 PM &nbsp;·&nbsp;
+      <strong style="color:var(--gold);">After 5 PM:</strong> +$2,500 &nbsp;·&nbsp;
+      💳 <strong style="color:var(--burgundy);">$2,000 Deposit required</strong>
+    </div>
+  </div>
+
+  <div class="price-layout">
+    <!-- Lateness Policy -->
+    <div class="price-block">
+      <div class="price-block-header gold-head">⌛ Lateness Policy</div>
+      <div style="padding:8px 0 4px;">
+        <div class="price-row"><span>15 min late</span><span style="color:var(--burgundy);font-weight:700;">CANCELLED</span></div>
+        <div class="price-row"><span>Late Night Fee (after 5 PM)</span><span>$2,500</span></div>
+        <div class="price-row"><span>Deposit</span><span style="color:var(--burgundy);font-weight:700;">$2,000 REQUIRED</span></div>
+      </div>
+    </div>
+
+    <!-- HAIR SERVICES (expandable) -->
+    <div class="price-block">
+      <div class="price-block-header">✦ Hair Services</div>
+      <div style="padding:8px 14px 14px;" id="hairPriceList"></div>
+    </div>
+
+    <style>
+      .price-style-card { margin-bottom:10px; border-radius:6px; overflow:hidden; border:1px solid var(--linefaint); background:rgba(255,255,255,0.5); }
+      .price-style-head { display:flex; justify-content:space-between; align-items:center; padding:10px 14px; cursor:pointer; user-select:none; background:rgba(23,191,174,0.03); transition:background 0.2s; }
+      .price-style-head:hover { background:rgba(23,191,174,0.08); }
+      .price-style-name { font-family:'Playfair Display','Lato',serif; font-size:14px; font-weight:600; color:var(--ink); letter-spacing:0.5px; }
+      .price-style-name small { display:block; font-size:10px; font-weight:400; color:var(--muted); font-style:italic; margin-top:2px; }
+      .price-style-from { font-size:12px; color:var(--burgundy); font-weight:700; white-space:nowrap; font-family:'Lato',sans-serif; }
+      .price-style-toggle { font-size:14px; color:var(--gold); margin-left:8px; transition:transform 0.25s; }
+      .price-style-card.open .price-style-toggle { transform:rotate(180deg); }
+      .price-style-body { display:none; padding:8px 14px 12px; border-top:1px solid var(--linefaint); background:var(--cream2); }
+      .price-style-card.open .price-style-body { display:block; }
+      .price-size-title { margin-top:8px; margin-bottom:4px; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:var(--burgundy); }
+      .price-size-title:first-child { margin-top:0; }
+      .price-row-inner { display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px solid var(--linefaint); }
+      .price-row-inner:last-child { border-bottom:none; }
+      .price-row-inner .label { font-size:13px; color:var(--ink); }
+      .price-row-inner .amt { font-size:13px; color:var(--burgundy); font-weight:700; white-space:nowrap; }
+      .price-group-divider { margin:14px 0 8px; padding:6px 10px; border-radius:3px; background:var(--goldfaint); border-left:3px solid var(--gold); font-family:'Playfair Display',serif; font-style:italic; font-size:13px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--ink); }
+      .price-group-divider:first-child { margin-top:4px; }
+    </style>
+
+    <script>
+      (function buildHairPriceList() {
+        const PRICE_DATA = [
+          { group: 'Braids', styles: [
+            { name: 'Knotless Box Braids', sizes: {
+                'Large': [['Bra-strap length',8000],['Mid-back length',9000],['Waist length',10000],['Hip length',11000],['Tailbone length',12000],['Classic length',14000],['Mid-thigh length',18000]],
+                'Medium': [['Armpit length',8000],['Bra-strap length',9000],['Mid-back length',10000],['Waist length',11000],['Hip length',12000],['Tailbone length',13000],['Classic length',16000],['Mid-thigh length',20000]],
+                'Small': [['Armpit length',9000],['Bra-strap length',10000],['Mid-back length',11000],['Waist length',12000],['Hip length',13000],['Tailbone length',15000],['Classic length',17000],['Mid-thigh length',22000]]
+            }},
+            { name: 'Boho Knotless Braids', sizes: {
+                'Large': [['Armpit length',9000],['Bra-strap length',10000],['Mid-back length',11000],['Waist length',13000],['Hip length',15000],['Tailbone length',17000],['Classic length',20000],['Mid-thigh length',23000]],
+                'Medium': [['Armpit length',10000],['Bra-strap length',11000],['Mid-back length',12000],['Waist length',15000],['Hip length',17000],['Tailbone length',19000],['Classic length',22000],['Mid-thigh length',24000]],
+                'Small': [['Armpit length',12000],['Bra-strap length',13000],['Mid-back length',14000],['Waist length',17000],['Hip length',19000],['Tailbone length',21000],['Classic length',24000],['Mid-thigh length',26000]]
+            }},
+            { name: 'Goddess Knotless Braids', sizes: {
+                'Large': [['Armpit length',9500],['Bra-strap length',10500],['Mid-back length',11500],['Waist length',13500],['Hip length',15500],['Tailbone length',17500],['Classic length',20500],['Mid-thigh length',23500]],
+                'Medium': [['Armpit length',11000],['Bra-strap length',12000],['Mid-back length',13000],['Waist length',15500],['Hip length',17500],['Tailbone length',19500],['Classic length',22500],['Mid-thigh length',25500]],
+                'Small': [['Armpit length',13000],['Bra-strap length',14000],['Mid-back length',15000],['Waist length',17500],['Hip length',19500],['Tailbone length',21500],['Classic length',24500],['Mid-thigh length',27500]]
+            }},
+            { name: 'Tribal Braids', sizes: {
+                'Large': [['Armpit length',8000],['Bra-strap length',9000],['Mid-back length',10000],['Waist length',12000],['Hip length',14000],['Tailbone length',16000],['Classic length',18000],['Mid-thigh length',21000]],
+                'Medium': [['Armpit length',9000],['Bra-strap length',10000],['Mid-back length',11000],['Waist length',13000],['Hip length',15000],['Tailbone length',17000],['Classic length',19000],['Mid-thigh length',22000]],
+                'Small': [['Armpit length',11000],['Bra-strap length',12000],['Mid-back length',13000],['Waist length',15000],['Hip length',17000],['Tailbone length',19000],['Classic length',21000],['Mid-thigh length',24000]]
+            }},
+            { name: 'Fulani Braids', sizes: {
+                'Large': [['Armpit length',8500],['Bra-strap length',9500],['Mid-back length',10500],['Waist length',12500],['Hip length',14500],['Tailbone length',16500],['Classic length',18500],['Mid-thigh length',21500]],
+                'Medium': [['Armpit length',9500],['Bra-strap length',10500],['Mid-back length',11500],['Waist length',13500],['Hip length',15500],['Tailbone length',17500],['Classic length',19500],['Mid-thigh length',22500]],
+                'Small': [['Armpit length',11500],['Bra-strap length',12500],['Mid-back length',13500],['Waist length',15500],['Hip length',17500],['Tailbone length',19500],['Classic length',21500],['Mid-thigh length',24500]]
+            }},
+            { name: 'Lemonade Braids', sizes: {
+                'Medium': [['Bra-strap length',9500],['Mid-back length',10500],['Waist length',12500],['Hip length',14500],['Tailbone length',16500],['Classic length',18500],['Mid-thigh length',21500]],
+                'Small': [['Bra-strap length',11500],['Mid-back length',12500],['Waist length',14500],['Hip length',16500],['Tailbone length',18500],['Classic length',20500],['Mid-thigh length',23500]]
+            }},
+            { name: 'Box Braids', sizes: {
+                'Large': [['Bra-strap length',7500],['Mid-back length',8500],['Waist length',9500],['Hip length',10500],['Tailbone length',11500],['Classic length',13500],['Mid-thigh length',17000]],
+                'Medium': [['Bra-strap length',8500],['Mid-back length',9500],['Waist length',10500],['Hip length',11500],['Tailbone length',12500],['Classic length',15000],['Mid-thigh length',19000]],
+                'Small': [['Bra-strap length',9500],['Mid-back length',10500],['Waist length',11500],['Hip length',12500],['Tailbone length',14000],['Classic length',16000],['Mid-thigh length',21000]]
+            }},
+            { name: 'Jumbo Braids', subtitle: 'Large only', sizes: {
+                'Large': [['Mid-back length',8000],['Waist length',9000],['Hip length',10000],['Tailbone length',11000],['Classic length',13000],['Mid-thigh length',16000]]
+            }}
+          ]},
+          { group: 'Twists', styles: [
+            { name: 'Island Twist', sizes: {
+                'Medium': [['Armpit length',10000],['Bra-strap length',11000],['Mid-back length',12000],['Waist length',15000],['Hip length',17000],['Tailbone length',19000],['Classic length',22000],['Mid-thigh length',24000]],
+                'Small': [['Armpit length',12000],['Bra-strap length',13000],['Mid-back length',14000],['Waist length',17000],['Hip length',19000],['Tailbone length',21000],['Classic length',24000],['Mid-thigh length',26000]]
+            }},
+            { name: 'Passion Twists', sizes: {
+                'Large': [['Armpit length',8500],['Bra-strap length',9500],['Mid-back length',10500],['Waist length',12500],['Hip length',14500],['Tailbone length',16500]],
+                'Medium': [['Armpit length',9500],['Bra-strap length',10500],['Mid-back length',11500],['Waist length',13500],['Hip length',15500],['Tailbone length',17500]],
+                'Small': [['Armpit length',11500],['Bra-strap length',12500],['Mid-back length',13500],['Waist length',15500],['Hip length',17500],['Tailbone length',19500]]
+            }},
+            { name: 'Mini Twists', sizes: {
+                'Medium': [['Armpit length',10000],['Bra-strap length',11000],['Mid-back length',12000],['Waist length',14000]],
+                'Small': [['Armpit length',12000],['Bra-strap length',13000],['Mid-back length',14000],['Waist length',16000]]
+            }}
+          ]},
+          { group: 'Locs', styles: [
+            { name: 'Soft Locs', sizes: {
+                'Medium': [['Armpit length',10000],['Bra-strap length',11000],['Mid-back length',12000],['Waist length',14000],['Hip length',16000],['Tailbone length',18000]],
+                'Small': [['Armpit length',12000],['Bra-strap length',13000],['Mid-back length',14000],['Waist length',16000],['Hip length',18000],['Tailbone length',20000]]
+            }},
+            { name: 'Butterfly Locs', sizes: {
+                'Medium': [['Armpit length',11000],['Bra-strap length',12000],['Mid-back length',13000],['Waist length',15500],['Hip length',17500],['Tailbone length',19500],['Classic length',22500],['Mid-thigh length',25500]],
+                'Small': [['Armpit length',13000],['Bra-strap length',14000],['Mid-back length',15000],['Waist length',17500],['Hip length',19500],['Tailbone length',21500],['Classic length',24500],['Mid-thigh length',27500]]
+            }},
+            { name: 'Faux Locs', sizes: {
+                'Medium': [['Armpit length',9000],['Bra-strap length',11000],['Mid-back length',12000],['Waist length',14000],['Hip length',16000],['Tailbone length',18000]],
+                'Small': [['Armpit length',9000],['Bra-strap length',13000],['Mid-back length',14000],['Waist length',16000],['Hip length',18000],['Tailbone length',20000]]
+            }}
+          ]},
+          { group: 'Cornrows', styles: [
+            { name: 'Straight Back Cornrows', sizes: { 'Options': [['2–4 Cornrows',5000],['5–6 Cornrows',5500],['7–8 Cornrows',6000],['9–10 Cornrows',6500],['11–12 Cornrows',7000]] }},
+            { name: 'Design Cornrows', sizes: { 'Options': [['Simple Design',5000],['Medium Design',6000],['Detailed Design',7000],['Complex / Custom Design','8,000 – 9,000']] }},
+            { name: 'Zig-Zag Cornrows', sizes: { 'Options': [['Basic Zig-Zag',5000],['Medium Pattern',6000],['Detailed Pattern',7000],['Complex Pattern','8,000 – 9,000']] }}
+          ]},
+          { group: 'Weave Services', styles: [
+            { name: 'Natural Sew-In', sizes: { 'Options': [['Basic Install','8,000+']] }},
+            { name: 'Closure Sew-In', sizes: { 'Options': [['Basic Install','10,000+']] }},
+            { name: 'Frontal Sew-In', sizes: { 'Options': [['Basic Install','12,000+']] }}
+          ]},
+          { group: 'Quick Weave', styles: [
+            { name: 'Basic Quick Weave', sizes: { 'Options': [['Basic Install',5000],['With Styling',6000]] }},
+            { name: 'Styled Quick Weave', sizes: { 'Options': [['Basic Install',6000],['With Styling',7000]] }},
+            { name: 'Closure Quick Weave', sizes: { 'Options': [['Basic Install',7000],['With Styling',8000]] }}
+          ]},
+          { group: 'Ponytails', styles: [
+            { name: 'Sleek Ponytail', sizes: { 'Options': [['Basic Style','4,500+']] }},
+            { name: 'Braided Ponytail', sizes: { 'Options': [['Basic Style','5,000+']] }},
+            { name: 'Half-Up Half-Down Ponytail', sizes: { 'Options': [['Basic Style','7,000+']] }}
+          ]}
+        ];
+        function fmtPrice(p) { return typeof p === 'number' ? '$' + p.toLocaleString() : '$' + p; }
+        function minPrice(sizes) {
+          let min = Infinity;
+          Object.values(sizes).forEach(rows => rows.forEach(([, p]) => { const n = typeof p === 'number' ? p : parseInt(String(p).replace(/[^\d]/g,''),10); if (!isNaN(n) && n < min) min = n; }));
+          return min === Infinity ? 0 : min;
+        }
+        const container = document.getElementById('hairPriceList');
+        if (!container) return;
+        let html = '';
+        PRICE_DATA.forEach(group => {
+          html += `<div class="price-group-divider">${group.group}</div>`;
+          group.styles.forEach(style => {
+            const min = minPrice(style.sizes);
+            const subtitleHTML = style.subtitle ? `<small>${style.subtitle}</small>` : '';
+            html += `<div class="price-style-card" onclick="this.classList.toggle('open')">
+              <div class="price-style-head">
+                <div class="price-style-name">${style.name}${subtitleHTML}</div>
+                <div style="display:flex;align-items:center;">
+                  <span class="price-style-from">from $${min.toLocaleString()}</span>
+                  <span class="price-style-toggle">▾</span>
+                </div>
+              </div>
+              <div class="price-style-body">`;
+            Object.entries(style.sizes).forEach(([sizeName, rows]) => {
+              if (sizeName !== 'Options') html += `<div class="price-size-title">${sizeName}</div>`;
+              rows.forEach(([lengthName, price]) => {
+                html += `<div class="price-row-inner"><span class="label">${lengthName}</span><span class="amt">${fmtPrice(price)}</span></div>`;
+              });
+            });
+            html += `</div></div>`;
+          });
+        });
+        html += `<div style="margin-top:14px;padding-top:10px;border-top:1px solid var(--linefaint);"><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--burgundy);margin-bottom:6px;">Optional Extra</div><div style="display:flex;justify-content:space-between;padding:8px 0;"><span style="font-size:13px;color:var(--ink);">Custom Design / Accessories</span><span style="font-size:13px;color:var(--burgundy);font-weight:700;white-space:nowrap;">$500+</span></div></div>`;
+        container.innerHTML = html;
+      })();
+    </script>
+
+    <div class="price-cta-row">
+      <button class="submit-btn" style="max-width:300px;" onclick="switchTab('viewBook')">Book an Appointment →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ADMIN LOGIN MODAL ===== -->
+<div class="modal-overlay" id="adminLoginModal">
+  <div class="modal-box" style="max-width:340px; text-align:center;">
+    <button class="modal-close" onclick="closeAdminModal()">×</button>
+    <div style="font-size:32px; margin-bottom:8px; color:var(--burgundy);">✦</div>
+    <h3 class="modal-title">Admin Access</h3>
+    <p style="font-size:13px; color:var(--muted); margin-bottom:20px;">Sign in with the authorised Google account.</p>
+    <button onclick="adminGoogleSignIn()" style="display:flex; align-items:center; justify-content:center; gap:10px; width:100%; padding:13px 16px; background:var(--cream2); color:var(--ink); border:1px solid var(--parchment); border-radius:12px; cursor:pointer; font-family:'Lato',sans-serif; font-size:14px; font-weight:700; transition:all 0.3s; margin-bottom:12px;">
+      <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.35-8.16 2.35-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+      Sign in with Google
+    </button>
+    <p id="adminLoginMsg" style="color:#c0392b; font-size:13px; display:none;"></p>
+    <button onclick="closeAdminModal()" style="background:none; border:none; color:var(--mutedlight); font-size:13px; cursor:pointer; font-family:'Lato',sans-serif;">Cancel</button>
+  </div>
+</div>
+
+<!-- ===== BOOKING CONFIRM MODAL ===== -->
+<div class="modal-overlay" id="bookingModal">
+  <div class="modal-box">
+    <h3 id="bookingModalTitle" style="display:none;"></h3>
+    <p id="bookingModalContent"></p>
+  </div>
+</div>
+
+<!-- ===== MY BOOKINGS MODAL ===== -->
+<div class="modal-overlay" id="myBookingsModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeMyBookings()">×</button>
+    <h3 class="modal-title">My Last 5 Bookings</h3>
+    <div id="myBookingsContent"></div>
+  </div>
+</div>
+
+<!-- ===== PAYMENT INFO MODAL ===== -->
+<div class="modal-overlay" id="paymentInfoModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closePaymentInfo()">×</button>
+    <h3 class="modal-title">Payment Info</h3>
+    <div style="background:var(--cream2); border-radius:12px; padding:16px; border-left:3px solid var(--burgundy); color:var(--ink2);">
+      <p style="font-size:14px; text-align:center; font-style:italic; font-family:'Playfair Display',serif;">Payment details coming soon. ✦</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== TAB NAV =====
+function switchTab(viewId) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.pill-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(viewId).classList.add('active');
+  const tab = document.getElementById('tab-' + viewId);
+  if (tab) tab.classList.add('active');
+  window.scrollTo(0, 0);
+  if (viewId === 'viewStyles') loadGallery('galleryDisplay');
+  if (viewId === 'viewReviews') loadReviews(currentUser);
+}
+
+let currentUser = null;
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCT0aEche1SGWjS_pEn0MmLQH6OGdZ07cU",
+  authDomain: "devonte-cutz.firebaseapp.com",
+  projectId: "devonte-cutz",
+  storageBucket: "devonte-cutz.firebasestorage.app",
+  messagingSenderId: "345703317013",
+  appId: "1:345703317013:web:8b167d90841df86590d81c"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const storage = firebase.storage();
+
+firebase.auth().onAuthStateChanged(user => {
+  currentUser = user || null;
+  loadReviews(currentUser);
+  updateAuthButton(user);
+});
+
+const ADMIN_UID = "Vj3a2XPtWTamBVFi86OP1oZJMi63";
+
+function login() { document.getElementById('adminLoginModal').classList.add('open'); }
+function closeAdminModal() {
+  document.getElementById('adminLoginModal').classList.remove('open');
+  document.getElementById('adminLoginMsg').style.display = 'none';
+}
+
+function adminGoogleSignIn() {
+  const msg = document.getElementById('adminLoginMsg');
+  msg.style.display = 'none';
+  const provider = new firebase.auth.GoogleAuthProvider();
+  provider.setCustomParameters({ prompt: 'select_account' });
+  firebase.auth().signInWithPopup(provider)
+    .then(result => {
+      if (result.user.uid !== ADMIN_UID) {
+        return firebase.auth().signOut().then(() => {
+          msg.textContent = "Access denied. This account is not authorised as admin.";
+          msg.style.display = "block";
+        });
+      }
+      closeAdminModal();
+      window.location.href = 'dashboard.html';
+    })
+    .catch(error => {
+      if (error.code === 'auth/popup-closed-by-user') return;
+      msg.textContent = "Sign-in failed: " + error.message;
+      msg.style.display = "block";
+    });
+}
+
+function logoutUser() { firebase.auth().signOut().catch(e => alert('Logout failed: ' + e.message)); }
+
+function googleSignIn() {
+  const provider = new firebase.auth.GoogleAuthProvider();
+  provider.setCustomParameters({ prompt: 'select_account' });
+  firebase.auth().signInWithPopup(provider)
+    .catch(e => { if (e.code !== 'auth/popup-closed-by-user') alert('Sign-in failed: ' + e.message); });
+}
+
+function handleAuthButtonClick() {
+  const user = firebase.auth().currentUser;
+  if (user) logoutUser(); else googleSignIn();
+}
+
+function updateAuthButton(user) {
+  const btn = document.getElementById('authTopBtn');
+  if (!btn) return;
+  if (user) {
+    btn.textContent = 'Log Out';
+    btn.style.background = 'var(--burgundy2)';
+  } else {
+    btn.textContent = 'Log In';
+    btn.style.background = 'var(--burgundy)';
+  }
+}
+
+// ===== GALLERY (filtered by Hairdressing / Lashes / Nails) =====
+let galleryDocsCache = [];
+let currentGalleryCategory = 'Hairdressing';
+let galleryUnsub = null;
+
+function loadGallery(containerId) {
+  if (galleryUnsub) { galleryUnsub(); galleryUnsub = null; }
+  const container = document.getElementById(containerId);
+  container.innerHTML = '<p style="text-align:center; padding:40px 20px; color:var(--muted); font-size:15px;">Loading styles...</p>';
+  galleryUnsub = db.collection('gallery').orderBy('sortOrder','asc').onSnapshot(snap => {
+    galleryDocsCache = [];
+    snap.forEach(doc => galleryDocsCache.push({ id:doc.id, ...doc.data() }));
+    renderGalleryCategory(containerId);
+  });
+}
+
+function selectGalleryCategory(cat) {
+  currentGalleryCategory = cat;
+  document.querySelectorAll('.style-cat-btn').forEach(b => b.classList.toggle('active', b.dataset.cat === cat));
+  renderGalleryCategory('galleryDisplay');
+}
+
+function renderGalleryCategory(containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  const items = galleryDocsCache.filter(d => (d.category || 'Uncategorized') === currentGalleryCategory);
+  if (!items.length) {
+    container.innerHTML = `<p style="text-align:center; padding:40px 20px; color:var(--muted); font-size:15px;">No ${currentGalleryCategory} photos yet. Check back soon!</p>`;
+    return;
+  }
+  container.innerHTML = `
+    <div class="gallery-grid" id="gc-current"></div>
+    <div class="book-look-row">
+      <button class="btn-book-look" onclick="switchTab('viewBook')">Book This Look →</button>
+    </div>`;
+  const gc = document.getElementById('gc-current');
+  items.forEach(item => { gc.innerHTML += `<div><img src="${item.url}" alt="${currentGalleryCategory}" loading="lazy"></div>`; });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  switchTab('viewStyles');
+  const dateInput = document.getElementById('date');
+  if (dateInput) dateInput.setAttribute('min', new Date().toISOString().split('T')[0]);
+  const phoneInput = document.getElementById('phone');
+  if (phoneInput) {
+    phoneInput.addEventListener('input', e => {
+      let v = e.target.value.replace(/\D/g,'').substring(0,10);
+      if (v.length>6) v=`(${v.slice(0,3)}) ${v.slice(3,6)}-${v.slice(6)}`;
+      else if (v.length>3) v=`(${v.slice(0,3)}) ${v.slice(3)}`;
+      else if (v.length>0) v=`(${v}`;
+      e.target.value = v;
+    });
+  }
+});
+
+// ===== SLOTS =====
+const businessHours = {
+  Monday:{open:'8:00 AM',close:'5:00 PM'},Tuesday:{open:'8:00 AM',close:'5:00 PM'},
+  Wednesday:{open:'8:00 AM',close:'5:00 PM'},Thursday:{open:'8:00 AM',close:'5:00 PM'},
+  Friday:{open:'8:00 AM',close:'5:00 PM'},Saturday:{open:'8:00 AM',close:'5:00 PM'},
+};
+
+function loadAvailableSlots() {
+  const dateVal = document.getElementById('date').value;
+  const sel = document.getElementById('selectedTime');
+  sel.innerHTML = '<option value="">Loading...</option>';
+  if (!dateVal) { sel.innerHTML='<option value="">Pick a date first</option>'; return; }
+  const [y,m,d] = dateVal.split('-').map(Number);
+  const dayName = new Date(y,m-1,d).toLocaleDateString('en-US',{weekday:'long'});
+  if (!businessHours[dayName]) { sel.innerHTML='<option value="">Closed this day</option>'; return; }
+  const {open,close} = businessHours[dayName];
+  const toMin = t => { const [time,p]=t.split(' '); let [h,mn]=time.split(':').map(Number); if(p==='PM'&&h!==12)h+=12; if(p==='AM'&&h===12)h=0; return h*60+mn; };
+  const oMin=toMin(open), cMin=toMin(close);
+  const slots=[];
+  for(let mm=oMin; mm<=cMin-30; mm+=30){
+    const h=Math.floor(mm/60), mn=mm%60, p=h<12?'AM':'PM', dh=h===0?12:h>12?h-12:h;
+    slots.push(`${dh}:${mn.toString().padStart(2,'0')} ${p}`);
+  }
+  db.collection('bookings').where('date','==',dateVal).get().then(snap=>{
+    const booked={};
+    snap.forEach(doc=>{const t=doc.data().time,s=doc.data().status; if(t&&s!=='Cancelled') booked[t]=(booked[t]||0)+1;});
+    sel.innerHTML=''; let any=false;
+    slots.forEach(slot=>{ if((booked[slot]||0)<1){ const o=document.createElement('option'); o.value=slot; o.textContent=slot; sel.appendChild(o); any=true; }});
+    if(!any) sel.innerHTML='<option value="">No slots available</option>';
+  }).catch(()=>{ sel.innerHTML=''; slots.forEach(slot=>{const o=document.createElement('option');o.value=slot;o.textContent=slot;sel.appendChild(o);}); });
+}
+
+// ===== SERVICE SELECTION =====
+let selectedAddons = new Set(), selectedCutItem = null, selectedCutPrice = null;
+
+const addonPrices = {
+  'Eyebrow Shaping':1000,'Eyebrow Wax':1500,'Eyebrow Tint':1000,
+  'Singles Eye Lash':3500,'Clusters':4500,'Strip Lash':2500,'Custom Design / Accessories':500,
+};
+
+const pricingCardDefs = {
+  'hair-Box Braids':{label:'Box Braids',basePrice:8000,items:[{name:'Medium',price:8000},{name:'Large',price:10000},{name:'Jumbo',price:6500},{name:'Half-up Half-down',price:9000}],addons:['Custom Design / Accessories'],isOther:false},
+  'hair-Knotless Braids':{label:'Knotless Braids',basePrice:10000,items:[{name:'Small',price:14000},{name:'Medium',price:10000},{name:'Large',price:8000}],addons:['Custom Design / Accessories'],isOther:false},
+  'hair-Cornrows':{label:'Cornrows',basePrice:3500,items:[{name:'Simple Straight Back',price:3500},{name:'Feed-In Cornrows',price:5000},{name:'Tribal Braids',price:7000}],addons:['Custom Design / Accessories'],isOther:false},
+  'hair-Weave Install':{label:'Weave Install',basePrice:6000,items:[{name:'Basic Weave',price:6000},{name:'Full Head',price:8000}],addons:['Custom Design / Accessories'],isOther:false},
+  'hair-Closure Sew-In':{label:'Closure Sew-In',basePrice:8000,items:[{name:'Standard',price:8000},{name:'Leave Out',price:9000}],addons:[],isOther:false},
+  'hair-Frontal Sew-In':{label:'Frontal Sew-In',basePrice:10000,items:[{name:'Standard',price:10000},{name:'HD Lace',price:13000}],addons:[],isOther:false},
+  'hair-Loc Retwist':{label:'Loc Retwist',basePrice:4000,items:[{name:'Short',price:4000},{name:'Medium',price:5500},{name:'Long',price:7000}],addons:[],isOther:false},
+  'hair-Silk Press':{label:'Silk Press',basePrice:4500,items:[{name:'Short Hair',price:4500},{name:'Medium Hair',price:5500},{name:'Long Hair',price:7000}],addons:['Custom Design / Accessories'],isOther:false},
+  'hair-Hair Colour':{label:'Hair Colour',basePrice:5000,items:[{name:'Single Process',price:5000},{name:'Highlights',price:8000},{name:'Full Colour',price:10000}],addons:[],isOther:false},
+  'hair-Trim & Style':{label:'Trim & Style',basePrice:3000,items:[{name:'Basic Trim',price:3000},{name:'Style & Set',price:4500}],addons:[],isOther:false},
+  'hair-Other':{label:'Other Service',basePrice:0,items:[],addons:['Eyebrow Shaping','Eyebrow Wax','Eyebrow Tint','Singles Eye Lash','Clusters','Strip Lash','Custom Design / Accessories'],isOther:true},
+  'lashes-Singles Eye Lash':{label:'Singles Eye Lash',basePrice:3500,items:[],addons:['Eyebrow Shaping','Eyebrow Wax','Eyebrow Tint'],isOther:false},
+  'lashes-Clusters':{label:'Clusters',basePrice:4500,items:[],addons:['Eyebrow Shaping','Eyebrow Wax','Eyebrow Tint'],isOther:false},
+  'lashes-Strip Lash':{label:'Strip Lash',basePrice:2500,items:[],addons:['Eyebrow Shaping','Eyebrow Wax','Eyebrow Tint'],isOther:false},
+  'lashes-Other':{label:'Other Lash Service',basePrice:0,items:[],addons:['Eyebrow Shaping','Eyebrow Wax','Eyebrow Tint','Custom Design / Accessories'],isOther:true},
+  'beauty-Eyebrow Shaping':{label:'Eyebrow Shaping',basePrice:1000,items:[],addons:['Eyebrow Wax','Eyebrow Tint'],isOther:false},
+  'beauty-Eyebrow Wax':{label:'Eyebrow Wax',basePrice:1500,items:[],addons:['Eyebrow Shaping','Eyebrow Tint'],isOther:false},
+  'beauty-Eyebrow Tint':{label:'Eyebrow Tint',basePrice:1000,items:[],addons:['Eyebrow Shaping','Eyebrow Wax'],isOther:false},
+  'beauty-Other':{label:'Other Beauty Service',basePrice:0,items:[],addons:['Eyebrow Shaping','Eyebrow Wax','Eyebrow Tint'],isOther:true},
+};
+
+function onServiceChange() {
+  const key=document.getElementById('adultService').value;
+  document.getElementById('haircutType').value=key;
+  selectedAddons=new Set(); selectedCutItem=null; selectedCutPrice=null;
+  renderServiceCard(key); updateSummary();
+}
+
+function renderServiceCard(key) {
+  const card=document.getElementById('serviceIncludesCard');
+  if(!key||key==='NONE'){card.style.display='none';card.innerHTML='';return;}
+  const def=pricingCardDefs[key]; if(!def){card.style.display='none';return;}
+  card.style.display='block'; let html='';
+  if(def.items&&def.items.length>0){
+    html+=`<div class="card-section-title" style="padding:10px 14px 2px;">Choose Your Style</div>`;
+    html+=`<div class="tap-hint">Tap to select your preferred option</div>`;
+    def.items.forEach(item=>{html+=`<div class="cut-item" onclick="selectCutItem(this,'${item.name.replace(/'/g,"\\'")}',${item.price})"><span class="item-label"><span class="item-dot" style="background:var(--burgundy);"></span>${item.name}</span><span><span class="item-price">$${item.price.toLocaleString()}</span><span class="item-check">✓</span></span></div>`;});
+  }
+  if(def.addons&&def.addons.length>0){
+    html+=`<div class="card-section-title" style="padding:${def.items.length>0?'12px':'10px'} 14px 2px;">Add-Ons</div>`;
+    def.addons.forEach(addon=>{html+=`<div class="addon-item" onclick="toggleAddon(this,'${addon.replace(/'/g,"\\'")}',${addonPrices[addon]||0})"><span class="item-label"><span class="item-dot" style="background:var(--gold);"></span>${addon}</span><span><span class="item-price">$${(addonPrices[addon]||0).toLocaleString()}</span><span class="item-check">✓</span></span></div>`;});
+  }
+  card.innerHTML=html;
+}
+
+function selectCutItem(el,name,price){
+  document.querySelectorAll('.cut-item').forEach(i=>{i.classList.remove('selected');i.querySelector('.item-check').classList.remove('show');});
+  el.classList.add('selected'); el.querySelector('.item-check').classList.add('show');
+  selectedCutItem=name; selectedCutPrice=price; updateSummary();
+}
+
+function toggleAddon(el,name,price){
+  if(selectedAddons.has(name)){selectedAddons.delete(name);el.classList.remove('selected');el.querySelector('.item-check').classList.remove('show');}
+  else{selectedAddons.add(name);el.classList.add('selected');el.querySelector('.item-check').classList.add('show');}
+  updateSummary();
+}
+
+function getSelectedServices(){
+  const key=document.getElementById('haircutType')?.value||'NONE';
+  if(!key||key==='NONE') return 'No services selected';
+  const def=pricingCardDefs[key]; if(!def) return key;
+  const parts=[def.label];
+  if(selectedCutItem) parts.push('Style: '+selectedCutItem);
+  selectedAddons.forEach(a=>parts.push('Add-on: '+a));
+  return parts.join(' | ');
+}
+
+function getSelectedTotal(){
+  const key=document.getElementById('haircutType')?.value||'NONE';
+  if(!key||key==='NONE') return 0;
+  const def=pricingCardDefs[key]; let t=selectedCutPrice!==null?selectedCutPrice:(def?.basePrice||0);
+  selectedAddons.forEach(a=>{if(addonPrices[a])t+=addonPrices[a];});
+  return t;
+}
+
+function updateSummary(){
+  const key=document.getElementById('haircutType')?.value||'NONE';
+  const sum=document.getElementById('selectionSummary'), txt=document.getElementById('selectionSummaryText');
+  if(!key||key==='NONE'){sum.style.display='none';return;}
+  const def=pricingCardDefs[key]; if(!def){sum.style.display='none';return;}
+  sum.style.display='block';
+  let lines=[`<strong style="color:var(--ink);">${def.label}</strong>`];
+  if(selectedCutItem) lines.push(`Style: ${selectedCutItem} — $${selectedCutPrice?.toLocaleString()}`);
+  selectedAddons.forEach(a=>lines.push(`Add-on: ${a} — $${(addonPrices[a]||0).toLocaleString()}`));
+  const total=getSelectedTotal();
+  if(total>0) lines.push(`<span style="color:var(--burgundy); font-weight:700;">Total: $${total.toLocaleString()}</span>`);
+  txt.innerHTML=lines.map(l=>`<div style="font-size:13px; color:var(--muted); margin:2px 0;">${l}</div>`).join('');
+}
+
+// ===== SUBMIT BOOKING =====
+async function submitBooking(e) {
+  e.preventDefault();
+  const user=firebase.auth().currentUser;
+  if(!user){googleSignIn();return;}
+  const name=document.getElementById('name').value.trim();
+  const phone=document.getElementById('phone').value.trim();
+  const date=document.getElementById('date').value;
+  const time=document.getElementById('selectedTime').value;
+  const service=getSelectedServices();
+  const total=getSelectedTotal();
+  if(!name||!phone||!date||!time){alert('Please fill all required fields.');return;}
+  if(service==='No services selected'){alert('Please select a service.');return;}
+  const modal=document.getElementById('bookingModal');
+  const content=document.getElementById('bookingModalContent');
+  modal.classList.add('open');
+  content.innerHTML='<p style="text-align:center; color:var(--muted); font-family:\'Lato\',sans-serif; padding:20px;">Processing...</p>';
+  try {
+    const existing=await db.collection('bookings').where('date','==',date).where('time','==',time).get();
+    if(existing.docs.filter(d=>d.data().status!=='Cancelled').length>=1){
+      content.innerHTML=`<p style="color:#c0392b; text-align:center; padding:10px;">That time slot is no longer available. Please choose another time.</p><button onclick="document.getElementById('bookingModal').classList.remove('open')" class="submit-btn" style="margin-top:14px;">Close</button>`;
+      return;
+    }
+    const counterRef=db.collection('counters').doc('bookings');
+    const bookingNumber=await db.runTransaction(async t2=>{
+      const counter=await t2.get(counterRef);
+      const next=(counter.exists?counter.data().count:0)+1;
+      t2.set(counterRef,{count:next}); return next;
+    });
+    const [y,m,d2]=date.split('-').map(Number);
+    const displayDate=new Date(y,m-1,d2).toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+    await db.collection('bookings').add({
+      uid:user.uid, email:user.email||'', bookingNumber, name, phone, date, time, service,
+      total:total||0, deposit:'Pending', status:'Active',
+      timestamp:firebase.firestore.FieldValue.serverTimestamp(),
+    });
+    content.innerHTML=`
+      <div style="text-align:center; padding:10px 0;">
+        <div style="font-size:38px; margin-bottom:12px; color:var(--burgundy);">✦</div>
+        <h3 style="font-family:'Playfair Display',serif; font-size:22px; color:var(--burgundy); margin-bottom:8px; font-style:italic;">Booking Confirmed!</h3>
+        <p style="color:var(--muted); font-size:13px; margin-bottom:16px;">Booking #${bookingNumber}</p>
+        <div style="background:var(--cream2); border-radius:12px; padding:16px; text-align:left; font-size:13px; color:var(--ink); margin-bottom:16px; border:1px solid var(--parchment);">
+          <p style="margin:4px 0;">👤 ${name}</p>
+          <p style="margin:4px 0;">📅 ${displayDate}</p>
+          <p style="margin:4px 0;">⏰ ${time}</p>
+          <p style="margin:4px 0;">✦ ${service}</p>
+          ${total?`<p style="margin:4px 0; color:var(--burgundy); font-weight:700;">💰 Total: $${total.toLocaleString()}</p>`:''}
+          <p style="margin:8px 0 0; color:var(--gold); font-size:12px; font-weight:700;">⚠️ A deposit is required to confirm your slot.</p>
+        </div>
+        <button onclick="document.getElementById('bookingModal').classList.remove('open')" class="submit-btn">Done →</button>
+      </div>`;
+    e.target.reset();
+    selectedAddons=new Set(); selectedCutItem=null; selectedCutPrice=null;
+    document.getElementById('haircutType').value='NONE';
+    document.getElementById('serviceIncludesCard').style.display='none';
+    document.getElementById('selectionSummary').style.display='none';
+  } catch(err){
+    content.innerHTML=`<p style="color:#c0392b; text-align:center; padding:10px;">Booking failed: ${err.message}</p><button onclick="document.getElementById('bookingModal').classList.remove('open')" class="submit-btn" style="margin-top:14px;">Close</button>`;
+  }
+}
+
+// ===== REVIEWS =====
+let selectedRating=0;
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('starRating').addEventListener('click',e=>{
+    if(e.target.dataset.value){
+      selectedRating=parseInt(e.target.dataset.value);
+      document.querySelectorAll('#starRating span').forEach((s,i)=>{s.style.color=i<selectedRating?'var(--burgundy)':'var(--parchment)';});
+    }
+  });
+  document.getElementById('reviewForm').addEventListener('submit',async e=>{
+    e.preventDefault();
+    const user=firebase.auth().currentUser;
+    if(!user){googleSignIn();return;}
+    if(!selectedRating){alert('Please select a star rating.');return;}
+    const name=document.getElementById('reviewName').value.trim();
+    const comment=document.getElementById('reviewComment').value.trim();
+    if(!name||!comment) return;
+    try{
+      await db.collection('reviews').add({uid:user.uid,name,comment,rating:selectedRating,timestamp:firebase.firestore.FieldValue.serverTimestamp()});
+      document.getElementById('reviewSubmitMsg').textContent='Review submitted! ✦';
+      document.getElementById('reviewForm').reset();
+      selectedRating=0;
+      document.querySelectorAll('#starRating span').forEach(s=>s.style.color='var(--parchment)');
+      setTimeout(()=>document.getElementById('reviewSubmitMsg').textContent='',3000);
+    }catch(err){document.getElementById('reviewSubmitMsg').textContent='Failed: '+err.message;}
+  });
+});
+
+function formatReviewTime(ts){
+  if(!ts) return '';
+  const date=ts.toDate?ts.toDate():new Date(ts);
+  const now=new Date(), diff=Math.floor((now-date)/1000);
+  if(diff<60) return 'Just now';
+  const m=Math.floor(diff/60),h=Math.floor(diff/3600),d=Math.floor(diff/86400);
+  const w=Math.floor(d/7),mo=Math.floor(d/30),y=Math.floor(d/365);
+  if(m<60) return `${m}m ago`; if(h<24) return `${h}h ago`; if(d<7) return `${d}d ago`;
+  if(w<5) return `${w}w ago`; if(mo<12) return `${mo}mo ago`; return `${y}y ago`;
+}
+
+function loadReviews(user){
+  const container=document.getElementById('reviewsContainer'); if(!container) return;
+  const prompt=document.getElementById('reviewPrompt'); if(prompt) prompt.style.display=user?'block':'none';
+  container.innerHTML='<p style="text-align:center;color:var(--muted);padding:20px;">Loading reviews...</p>';
+  db.collection('reviews').orderBy('timestamp','desc').onSnapshot(snap=>{
+    if(snap.empty){container.innerHTML='<p style="text-align:center;color:var(--muted);padding:20px;">No reviews yet. Be the first!</p>';return;}
+    container.innerHTML='';
+    snap.forEach(doc=>{
+      const d=doc.data(), isOwner=user&&d.uid===user.uid, dateStr=formatReviewTime(d.timestamp);
+      let stars=''; for(let i=1;i<=5;i++) stars+=`<span style="color:${i<=d.rating?'var(--burgundy)':'var(--parchment)'};font-size:16px;">★</span>`;
+      container.innerHTML+=`
+        <div class="review-card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+            <strong style="font-size:14px;color:var(--ink);">${d.name}</strong>
+            <small style="color:var(--mutedlight);font-size:11px;">${dateStr}</small>
+          </div>
+          <div style="margin-bottom:6px;">${stars}</div>
+          <p style="font-size:13px;color:var(--muted);line-height:1.6;margin:0;">${d.comment}</p>
+          ${isOwner?`<button onclick="deleteReview('${doc.id}')" style="color:var(--rose);background:none;border:none;font-size:11px;cursor:pointer;padding:4px 0 0;font-family:'Lato',sans-serif;">Delete</button>`:''}
+        </div>`;
+    });
+  });
+}
+
+function deleteReview(docId){
+  const user=firebase.auth().currentUser; if(!user){googleSignIn();return;}
+  db.collection('reviews').doc(docId).get().then(doc=>{
+    if(!doc.exists){alert('Review not found.');return;}
+    if(doc.data().uid!==user.uid){alert('You can only delete your own reviews.');return;}
+    db.collection('reviews').doc(docId).delete().catch(e=>alert('Failed: '+e.message));
+  });
+}
+
+// ===== MY BOOKINGS =====
+function showUserBookings(){
+  const user=firebase.auth().currentUser; if(!user){googleSignIn();return;}
+  document.getElementById('myBookingsContent').innerHTML='<p style="text-align:center;color:var(--muted);">Loading...</p>';
+  document.getElementById('myBookingsModal').classList.add('open');
+  const unsub=db.collection('bookings').where('uid','==',user.uid).onSnapshot(snap=>{
+    let bookings=[]; snap.forEach(doc=>bookings.push({id:doc.id,...doc.data()}));
+    bookings.sort((a,b)=>new Date(b.date||0)-new Date(a.date||0));
+    bookings=bookings.slice(0,5); let html='';
+    if(!bookings.length){
+      html=`<div style="text-align:center;padding:20px;"><p style="color:var(--muted);">No bookings yet.</p><button onclick="closeMyBookings();switchTab('viewBook');" class="submit-btn" style="margin-top:12px;max-width:240px;">Book Now →</button></div>`;
+    } else {
+      bookings.forEach(b=>{
+        let disp='Unknown Date';
+        try{if(typeof b.date==='string'){const[y,m,d]=b.date.split('-').map(Number);if(y&&m&&d)disp=new Date(y,m-1,d).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});}}catch{}
+        const depOk=b.deposit==='Made'||b.deposit==='Yes', can=b.status==='Cancelled';
+        html+=`<div class="booking-card${can?' cancelled':''}">
+          <h3>Booking #${b.bookingNumber||'N/A'}</h3>
+          <p>👤 ${b.name||'N/A'}</p><p>📅 ${disp}</p><p>⏰ ${b.time||'N/A'}</p>
+          ${b.service?`<p>✦ ${b.service}</p>`:''}
+          <p>💳 <span style="color:${depOk?'var(--burgundy)':'var(--gold)'};font-weight:700;">${depOk?'Deposit Confirmed ✓':'Deposit Pending ⚠️'}</span></p>
+          ${b.total?`<p style="color:var(--burgundy);font-weight:700;">💰 $${Number(b.total).toLocaleString()}</p>`:''}
+          <p>Status: <span class="tag ${can?'tag-cancelled':'tag-active'}">${can?'Cancelled':'Active'}</span></p>
+          ${!can?`<button class="cancel-booking-btn" onclick="cancelUserBooking('${b.id}','${b.bookingNumber||'N/A'}')">✕ Cancel Booking</button>`:''}
+        </div>`;
+      });
+    }
+    document.getElementById('myBookingsContent').innerHTML=html;
+    window.bookingsUnsubscribe=unsub;
+  },()=>{document.getElementById('myBookingsContent').innerHTML='<p style="color:#c0392b;text-align:center;">Error loading bookings.</p>';});
+}
+
+function closeMyBookings(){
+  document.getElementById('myBookingsModal').classList.remove('open');
+  if(window.bookingsUnsubscribe){window.bookingsUnsubscribe();window.bookingsUnsubscribe=null;}
+}
+
+function cancelUserBooking(bookingId,bookingNumber){
+  const user=firebase.auth().currentUser; if(!user){googleSignIn();return;}
+  Swal.fire({
+    title:'Cancel Booking?',
+    html:`<p style="font-family:'Lato',sans-serif;color:var(--muted);font-size:14px;">Cancel <strong>Booking #${bookingNumber}</strong>? This cannot be undone.</p>`,
+    icon:'warning', showCancelButton:true,
+    confirmButtonColor:'#c0392b', cancelButtonColor:'#888',
+    confirmButtonText:'Yes, Cancel', cancelButtonText:'Keep',
+    reverseButtons:true, background:'#141C1B', color:'#F3F7F6'
+  }).then(result=>{
+    if(!result.isConfirmed) return;
+    db.collection('bookings').doc(bookingId).get().then(doc=>{
+      if(!doc.exists){Swal.fire('Not Found','Booking could not be found.','error');return;}
+      if(doc.data().uid!==user.uid){Swal.fire('Denied','You can only cancel your own bookings.','error');return;}
+      db.collection('bookings').doc(bookingId).update({status:'Cancelled',cancelledBy:'client'})
+        .then(()=>Swal.fire({title:'Cancelled',text:`Booking #${bookingNumber} cancelled.`,icon:'success',confirmButtonColor:'var(--burgundy)',background:'#141C1B',color:'#F3F7F6'}))
+        .catch(err=>Swal.fire('Error','Failed: '+err.message,'error'));
+    }).catch(err=>Swal.fire('Error',err.message,'error'));
+  });
+}
+
+function showPaymentInfo(){document.getElementById('paymentInfoModal').classList.add('open');}
+function closePaymentInfo(){document.getElementById('paymentInfoModal').classList.remove('open');}
+
+document.querySelectorAll('.modal-overlay').forEach(o=>{
+  o.addEventListener('click',e=>{if(e.target===o) o.classList.remove('open');});
+});
+</script>
+<script>
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.getRegistrations().then(regs=>regs.forEach(r=>r.unregister()));
+}
+</script>
+</body>
+</html>
